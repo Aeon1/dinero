@@ -80,18 +80,16 @@ $("#ingresar_cambio").click(function(){
      save_gastos_f_change();
 });
 //botones de categorias
-$('#fondo img').mousedown(function(){
+$('#fondo img').click(function(){
     var pr=$('#me_gaste').val();
     $('#cat').val($(this).attr('cat'));
-    $(this).addClass('click');
     if (pr==''){
         $('#me_gaste').attr('placeholder','Ingrese lo que gasto').focus(); return false
-    }
-    }).mouseup(function(){
-        $(this).removeClass('click');
-         save_gastos_d();
+    }else{
+        save_gastos_d();
         pr='';
-       });
+    }
+    })
        
   
 }); 
@@ -559,24 +557,24 @@ var clave=$("#resultado").text();
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');
         for (var i=0; i<len; i++){ 
-            var script=results.rows.item(i).script;
-            if (online=='1'){                
-              $.ajax({
-                             type: 'POST',
-                             url: 'http://2030.mx/dinero/consultas.php',
-                             data: {id:'c7',script:script},
-                             beforeSend: function() {},
-                             success: function(data) {
-                                if (data=='1'){
-                                    db.transaction(
-                                    function (tx){
-                                    tx.executeSql("delete from sincronizacion where id=?",[results.rows.item(i).id]);
-                                    console.log('dato ='+results.rows.item(i).id);   
-                                        })
-                                    }else{}                              
-                               }                           
-                              });  
-            }
-            //$('#consin').append("<tr><td>"+results.rows.item(i).script+"</td></tr>");          
+           // var script=results.rows.item(i).script;
+//            if (online=='1'){                
+//              $.ajax({
+//                             type: 'POST',
+//                             url: 'http://2030.mx/dinero/consultas.php',
+//                             data: {id:'c7',script:script},
+//                             beforeSend: function() {},
+//                             success: function(data) {
+//                                if (data=='1'){
+//                                    db.transaction(
+//                                    function (tx){
+//                                    tx.executeSql("delete from sincronizacion where id=?",[results.rows.item(i).id]);
+//                                    console.log('dato ='+results.rows.item(i).id);   
+//                                        })
+//                                    }else{}                              
+//                               }                           
+//                              });  
+//            }
+            $('#consin').append("<tr><td>"+results.rows.item(i).script+"</td></tr>");          
         }
     }
