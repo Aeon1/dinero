@@ -139,10 +139,11 @@ $('#fondo img').click(function(){
      var online;
     function onOnline() {
    online='1';
-   sincro();   
+   $('h1').append(online);  
 }
 function onOffline() {
    online='0';
+   $('h1').append(online); 
     }
  function claveDB(tx) {
     var claves;
