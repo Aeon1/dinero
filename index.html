@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ejemplo de Storage</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.3.2.min.css" />
+    <script src="jquery-mobile/jquery-1.9.1.min.js"></script>
+	<script src="jquery-mobile/jquery.mobile-1.3.2.min.js"></script>
+    <script src="jquery-mobile/funciones.js"></script>
+    <script src="jquery-mobile/fastclick.js"></script>
+    <script type="text/javascript" charset="utf-8">    
+    // Espera a que PhoneGap se inicie
+    document.addEventListener("deviceready", onDeviceReady, false);
+    </script>
+  </head>
+  <body>
+  <div data-role="page" id="page1">
+
+	<div data-role="header">
+		<h1>configuracion</h1>
+	</div><!-- /header -->
+	<div data-role="content">
+   <form>
+   <p style="text-align: center;">ID: <span id="resultado"></span></p>
+    <fieldset data-role="controlgroup" data-type="horizontal">
+        <legend>&iquest;tipo de ingreso?</legend>
+        <input type="radio" name="radio" id="radio-choice-h-2a" value="fijo" checked="checked">
+        <label for="radio-choice-h-2a">Fijo</label>
+        <input type="radio" name="radio" id="radio-choice-h-2b" value="variable">
+        <label for="radio-choice-h-2b">Variable</label>
+        <input type="hidden" id="fiva" value="0"/>
+    </fieldset>
+    <div id="dpc">
+    <label>&iquest;Cuanto gano?</label>
+    <input type="number" name="sueldo" id="sueldo" value="" />
+    </div>
+    <input type="button" value="enviar" id="save_sueldo"  />
+    <p id="send" style="text-align: center;"></p>
+</form>
+			
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+<div data-role="page" id="page2">
+
+	<div data-role="header">
+		<h1>gastos fijos</h1>
+        <label id="fgs" style="display: none;"></label>
+	</div><!-- /header -->
+
+	<div data-role="content">
+    <input type="button" value="Continuar" id="continue" />	
+	<label>concepto</label><input type="text" id="concepto" placeholder="Ejemplo: Renta" value="" />
+    <label>pagos</label><input type="number" placeholder="$" id="pago" value="" />
+    <input type="button" id="ingresar" value="Agregar" />
+    <table data-role="table" id="my-table" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
+    <thead><tr><th >Concepto</th><th >Pago</th></tr></thead>
+    <tbody id="gastos"></tbody>
+    <tfoot><tr><th>total</th><th id="monto"></th></tr></tfoot>
+    </table>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+<div data-role="page" id="page3">
+
+	<div data-role="header">
+		<h1>Midete<input type="hidden" id="online" /></h1>
+	</div><!-- /header -->
+  
+<style>
+.image{width: 45%;height: 45%; float: left;margin: 2.5%;cursor: pointer;}
+.click {
+       filter: invert(100%);
+-webkit-filter: invert(100%);
+-moz-filter: invert(100%);
+-o-filter: invert(100%);
+-ms-filter: invert(100%);
+background-color: red;
+      }
+
+#page3{background-color: #00BBB3;}
+</style>
+	<div data-role="content" id="fondo">
+    <input type="number" id="me_gaste" placeholder="$" />
+    <input type="hidden" id="cat" />	
+        <img src="jquery-mobile/images/vivir.png" class="image" cat="Vivir"/>
+        <img src="jquery-mobile/images/traslado.png" class="image" cat="Traslado"/>
+        <img src="jquery-mobile/images/centaveros.png" class="image" cat="Centaveros"/>
+        <img src="jquery-mobile/images/social.png" class="image" cat="Social"/>
+        <img src="jquery-mobile/images/cosas.png" class="image" cat="Cosas"/>
+        <img src="jquery-mobile/images/salud.png" class="image" cat="Salud"/>
+        <div data-role="popup" id="mensaje">
+        <p>Dato guardado</p></div>
+	</div><!-- /content -->
+<div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c" >
+    <div data-role="navbar" >
+    <ul>
+        <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
+        <li><a href="#metas" id="" data-icon="forward"  onclick="sincro()">Metas</a></li>
+        <li><a href="camara.html" rel="external"  id="" data-icon="back">Balance</a></li>
+    </ul>
+    </div>
+    <div data-role="popup" id="configuracion" data-theme="d">
+        <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
+            <li><a href="#config_gf" onclick="check_gas_fi()">Gastos fijos</a></li>
+        </ul>
+</div>
+</div>
+</div><!-- /page -->
+
+<div data-role="page" id="config_s">
+
+	<div data-role="header">
+		<h1>configuracion</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		 <form>
+   <p style="text-align: center;">ID: <span id="config_result"></span></p>
+    <fieldset data-role="controlgroup" data-type="horizontal">
+        <legend>&iquest;tipo de ingreso?</legend>
+        <input type="radio" name="radio1" id="radio-choice-h-2a1" value="fijo" >
+        <label for="radio-choice-h-2a1">Fijo</label>
+        <input type="radio" name="radio1" id="radio-choice-h-2b2" value="variable">
+        <label for="radio-choice-h-2b2">Variable</label>
+        <input type="hidden" id="fiva1" value=""/>
+    </fieldset>
+    <div id="dpc1">
+    <label>&iquest;Cuanto gano?</label>
+    <input type="number" name="sueldo" id="sueldo1" value="" />
+    </div>
+    <input type="button" value="enviar" id="save_sueldo1"  />
+    <p id="rgd" style="font-weight: 700;text-align: center;"></p>
+</form>		
+	</div><!-- /content -->
+<div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
+    <div data-role="navbar" >
+    <ul>
+        <li><a href="#page3" id="" data-icon="home"  >Principal</a></li>
+        <li><a href="#" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#" id="" data-icon="back">Balance</a></li>
+    </ul>
+    </div>
+   
+</div>
+</div><!-- /page -->
+
+<div data-role="page" id="config_gf">
+
+	<div data-role="header">
+		<h1>configuracion</h1>
+        <label id="cfs" style="display: none;"></label>
+	</div><!-- /header -->
+
+	<div data-role="content">                                        
+	<label>concepto</label><input type="text" id="concepto_change" placeholder="Ejemplo: Renta" value="" />
+    <label>pagos</label><input type="number" placeholder="$" id="pago_change" value="" />
+    <input type="button" id="ingresar_cambio" value="Agregar" />
+    <table data-role="table" id="my-table-change" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="">
+   <thead><tr><th >Concepto</th><th >Pago</th><th>Borrar</th></tr></thead>
+<tbody id="gastos_change"></tbody>
+<tfoot><tr></tr></tfoot>
+    </table>
+    <input type="button" value="Borrar" id="boton" onclick="delete_gastos_f()" />
+	</div><!-- /content -->
+<div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
+    <div data-role="navbar" >
+    <ul>
+        <li><a href="#page3" id="" data-icon="home" >Principal</a></li>
+        <li><a href="#" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#" id="" data-icon="back">Balance</a></li>
+    </ul>
+    </div>   
+</div>
+</div><!-- /page -->
+
+<div data-role="page" id="metas">
+
+	<div data-role="header">
+		<h1>Metas</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<table data-role="table" id="my-tab" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
+    <thead><tr><th data-priority="1">dato</th></tr></thead>
+    <tbody id="consin"></tbody>
+    </table>		
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>configuracion</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+				
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+  </body>
+</html>
