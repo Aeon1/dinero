@@ -87,8 +87,8 @@
     <div data-role="navbar" >
     <ul>
         <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
-        <li><a href="#metas" id="" data-icon="forward"  onclick="sincro()">Metas</a></li>
-        <li><a href="camara.html" rel="external"  id="" data-icon="back">Balance</a></li>
+        <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()" >Metas</a></li>
+        <li><a href="" rel="external"  id="" data-icon="back">Balance</a></li>
     </ul>
     </div>
     <div data-role="popup" id="configuracion" data-theme="d">
@@ -129,7 +129,7 @@
     <div data-role="navbar" >
     <ul>
         <li><a href="#page3" id="" data-icon="home"  >Principal</a></li>
-        <li><a href="#" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
         <li><a href="#" id="" data-icon="back">Balance</a></li>
     </ul>
     </div>
@@ -159,38 +159,79 @@
     <div data-role="navbar" >
     <ul>
         <li><a href="#page3" id="" data-icon="home" >Principal</a></li>
-        <li><a href="#" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
         <li><a href="#" id="" data-icon="back">Balance</a></li>
     </ul>
     </div>   
 </div>
 </div><!-- /page -->
-
 <div data-role="page" id="metas">
 
 	<div data-role="header">
 		<h1>Metas</h1>
 	</div><!-- /header -->
-
-	<div data-role="content">
-    <input type="button" value="sincronizar" onclick="sincro()" />
-		<table data-role="table" id="my-tab" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
-    <thead><tr><th data-priority="1">dato</th></tr></thead>
-    <tbody id="consin"></tbody>
-    </table>		
+	<div data-role="content" id="metasxx">
+    	<a href="#metas_insert">insertar</a>
 	</div><!-- /content -->
 
 </div><!-- /page -->
+<div data-role="page" id="metas_insert">
+	<div data-role="header">
+		<h1>Metas</h1>
+	</div><!-- /header -->
+    
+	<div data-role="content">
+	<form>
+    <input type="text" id="metnombre" placeholder="Titulo de la meta" />
+    <input type="number" id="metprecio" placeholder="precio $"/>
+    <fieldset data-role="controlgroup" data-type="horizontal">
+        <legend>En cuanto tiempo?</legend>
+        <input type="radio" name="radio2" id="radio-choice-h-2a2" value="dias" checked="checked">
+        <label for="radio-choice-h-2a2">Dias</label>
+        <input type="radio" name="radio2" id="radio-choice-h-2b2" value="semanas">
+        <label for="radio-choice-h-2b2">Semanas</label>
+        <input type="radio" name="radio2" id="radio-choice-h-2c2" value="meses">
+        <label for="radio-choice-h-2c2">Meses</label>
+    </fieldset>
+    <input type="text" id="metperiodo" placeholder="Dias, Semanas, Meses" />
+    <input type="hidden" id="metperiododias" value="dias"/>
+    <img id="imgop" style="display: none;"/>    
+    <input type="button" value="Seleccionar imagen" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" />
+    <input type="text" id="meturlimg" value="" />
+    <input type="button" id="metsave" value="Guardar Meta" onclick="savemeta()" />
+    <p id="respmeta" style="text-align: center;"></p>
+    </form>	
+	</div><!-- /content -->
+<div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
+    <div data-role="navbar" >
+    <ul>
+        <li><a href="#configuracion1" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
+        <li><a href="#page3" id="" data-icon="home">Principal</a></li>
+        <li><a href="#balance" id="" data-icon="back">Balance</a></li>
+    </ul>
+    </div> 
+    <div data-role="popup" id="configuracion1" data-theme="d">
+        <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
+            <li><a href="#config_gf" onclick="check_gas_fi()">Gastos fijos</a></li>
+        </ul>
+</div>  
+</div>
+</div><!-- /page -->
 
 
-<div data-role="page">
+<div data-role="page" id="balance">
 
 	<div data-role="header">
 		<h1>configuracion</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">	
-				
+		<input type="button" value="sincronizar" onclick="sincro()" />
+		<table data-role="table" id="my-tab" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
+    <thead><tr><th data-priority="1">dato</th></tr></thead>
+    <tbody id="consin"></tbody>
+    </table>		
 	</div><!-- /content -->
 
 </div><!-- /page -->

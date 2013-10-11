@@ -26,6 +26,18 @@ $(document).ready(function(){
     $('#fiva1').val('1');
    }   
  });
+ //periodo de la meta
+  $("input[name='radio2']").click(function(){
+   var periodo= $("input[name='radio2']:checked").val();
+   if (periodo=='dias'){
+    $('#metperiododias').val('dias');
+   }else if(periodo=='semanas'){
+    $('#metperiododias').val('semanas');
+   }else if(periodo=='meses'){
+    $('#metperiododias').val('meses');
+   }
+      
+ });
 //guardar el sueldo
  $('#save_sueldo').click(function(){
     var v2=$('#fiva').val();
@@ -131,6 +143,8 @@ function checar_c6(tx,results){
     console.log('clave encontrada(s) '+len)
 }
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
+ var pictureSource;   // Origen de la imagen
+    var destinationType; // Formato del valor retornado
  function onDeviceReady() {    
     document.addEventListener("online", onOnline, false);
         document.addEventListener("offline", onOffline, false);
@@ -138,6 +152,8 @@ function checar_c6(tx,results){
          var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(claveDB,successCB,clave_error);
         checkConnection();
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
     }
      var online;    
 function checkConnection() {
@@ -553,35 +569,93 @@ var clave=$("#resultado").text();
  function sincro() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
-        tx.executeSql('SELECT * FROM sincronizacion', [], sincrony);
+        tx.executeSql('SELECT * FROM metas', [], sincrony);
     });
     }  
  function sincrony(tx, results) {
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');
         for (var i=0; i<len; i++){ 
-             var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if(h<10){h='0'+h} if(m<10){m='0'+m} if(s<10){s='0'+s}
-var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s; 
-            var script="insert into gasto_hormiga(clave,categoria,valor,fecha) values('YYV6QH','Salud','6456','2013-10-10 17:35:40')" ;
-            console.log(script);
-            if (online=='1'){
-              $.ajax({
-                             type: 'POST',
-                             url: 'http://2030.mx/dinero/consultas.php',
-                             data: {id:'c7',script:script},
-                             beforeSend: function() {},
-                             success: function(data) {
-                                if (data=='1'){
-                                    db.transaction(
-                                    function (tx){
-                                    tx.executeSql("delete from sincronizacion where id=?",[results.rows.item(i).id]);
-                                    console.log('dato ='+results.rows.item(i).id);   
-                                        })
-                                    }else{console.log(data);}                              
-                               }                           
-                              });  
-            }
-           // $('#consin').append("<tr><td>"+results.rows.item(i).script+"</td></tr>");          
+            
+             //var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if(h<10){h='0'+h} if(m<10){m='0'+m} if(s<10){s='0'+s}
+//var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s; 
+//            var script="insert into gasto_hormiga(clave,categoria,valor,fecha) values('YYV6QH','Salud','6456','2013-10-10 17:35:40')" ;
+//            console.log(script);
+//            if (online=='1'){
+//              $.ajax({
+//                             type: 'POST',
+//                             url: 'http://2030.mx/dinero/consultas.php',
+//                             data: {id:'c7',script:script},
+//                             beforeSend: function() {},
+//                             success: function(data) {
+//                                if (data=='1'){
+//                                    db.transaction(
+//                                    function (tx){
+//                                    tx.executeSql("delete from sincronizacion where id=?",[results.rows.item(i).id]);
+//                                    console.log('dato ='+results.rows.item(i).id);   
+//                                        })
+//                                    }else{console.log(data);}                              
+//                               }                           
+//                              });  
+//            }
+            $('#consin').append("<tr><td>"+results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha+"</td></tr>");          
         }
     }
+  //funciones para obtener la imagen
+  function onPhotoURISuccess(imageURI) {
+      // Obtiene el elemento HTML de la imagen
+      var largeImage = document.getElementById('imgop');
+      // Revela el elemento de la imagen
+      largeImage.style.display = 'block';
+      // Muestra la foto capturada
+      // Se usan reglas CSS para dimensionar la imagen
+      largeImage.src = imageURI;
+      document.getElementById('meturlimg').value=imageURI;
+    }
+    // Un botón llamara a esta función
+    function getPhoto(source) {
+      // Retorna la ruta del fichero de imagen desde el origen especificado
+      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
+        destinationType: destinationType.FILE_URI,
+        sourceType: source });
+      }
+    // Llamado cuando algo malo ocurre
+    function onFail(message) {
+      alert('Ocurrió un error: ' + message);
+    }
+      
+function savemeta(){
+    var nommeta=$('#metnombre').val();
+    var precio=$('#metprecio').val();    
+    var periodo=$('#metperiodo').val();
+    var periodo1=$('#metperiododias').val();
+    var urlimagen=$('#meturlimg').val()
+    if (nommeta==''){$('#metnombre').attr('placeholder','Ingrese su meta').focus();alert('vacio');return false; }
+    else if (precio==''){$('#metprecio').attr('placeholder','Ingrese el precio').focus();return false; }
+    else if (periodo==''){$('#metperiodo').attr('placeholder','Ingrese el periodo').focus();return false; }
+    else if (urlimagen==''){urlimagen='0'}    
+    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {            
+        tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha)'); 
+         var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
+var fecha = "Dia "+dd+" de "+mm+" del "+yyyy;
+tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha) values(?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha]);
+$("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
+    $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
+    });
+    };
     
+    //cargar meta
+     function loadmeta() {
+        var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {
+        tx.executeSql('SELECT * FROM metas', [], loadmeta1);
+    });
+    }
+    function loadmeta1(tx,results){
+        var len = results.rows.length;
+        console.log('se encontraron '+len+' resgistros');
+        for (var i=0; i<len; i++){ 
+            $('#metasxx').append("<img src='"+results.rows.item(i).imagen+"' alt='Sin imagen'/>");
+        }        
+    }
