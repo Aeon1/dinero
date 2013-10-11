@@ -1,5 +1,4 @@
-$(document).ready(function(){
-    
+$(document).ready(function(){    
     //inicio sueldo
  $("input[name='radio']").click(function(){
    var sueldo= $("input[name='radio']:checked").val();
@@ -90,7 +89,6 @@ $('#fondo img').click(function(){
     }
     })  
 }); 
-
 //abrir la bd y comprobar si existe y generar y guardar la clave
 var xtsjf;
  function checar_c1(){
@@ -226,8 +224,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     }
  function clave_error(err) {
       // console.log("se a producido un error "+err.code);
-    }
- 
+    } 
  function successCB() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(
@@ -374,8 +371,7 @@ function save_gastos_f() {
                                             tx.executeSql("insert into sincronizacion(script) values(?)",["insert into gasto(clave,concepto,valor) values('"+clave+"','"+v1+"','"+v2+"')"]);
                                             $('#concepto,#pago').val('');
                                             })
-                                        }
-                              
+                                        }                              
                                 }                           
                               });
             }else{ 
@@ -553,15 +549,13 @@ var clave=$("#resultado").text();
 //    $("#" + grilla + " tfoot tr:last td:eq(" + columna + ")").html(resultVal.toFixed(2).toString().replace('.',','));   
 // 
 //}  
-
 //checar contenido de la tabla de sincronizacion
  function sincro() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
         tx.executeSql('SELECT * FROM sincronizacion', [], sincrony);
     });
-    }
-  
+    }  
  function sincrony(tx, results) {
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');
