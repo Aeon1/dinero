@@ -656,6 +656,6 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');
         for (var i=0; i<len; i++){ 
-            $('#metasxx').append("<img src='"+results.rows.item(i).imagen+"' alt='Sin imagen'/>");
+            $('#metasxx #contenedorimg').append("<img class='imagenmeta' src='"+results.rows.item(i).imagen+"' alt='Sin imagen'/>");
         }        
     }

@@ -171,6 +171,7 @@
 		<h1>Metas</h1>
 	</div><!-- /header -->
 	<div data-role="content" id="metasxx">
+    <div class="contenedorimg" id="contenedorimg"></div>
     	<a href="#metas_insert">insertar</a>
 	</div><!-- /content -->
 
@@ -195,9 +196,9 @@
     </fieldset>
     <input type="text" id="metperiodo" placeholder="Dias, Semanas, Meses" />
     <input type="hidden" id="metperiododias" value="dias"/>
-    <img id="imgop" style="display: none;"/>    
+    <img class="imagenmeta" id="imgop" style="display: none;"/>    
     <input type="button" value="Seleccionar imagen" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" />
-    <input type="text" id="meturlimg" value="" />
+    <input type="hidden" id="meturlimg" value="" />
     <input type="button" id="metsave" value="Guardar Meta" onclick="savemeta()" />
     <p id="respmeta" style="text-align: center;"></p>
     </form>	

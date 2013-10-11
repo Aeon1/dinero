@@ -17,3 +17,5 @@
 .ui-table-columntoggle-btn {
   display: none !important;  
 }
+.contenedorimg{text-align: center;}
+.imagenmeta{max-width: 100%; height: auto;}
