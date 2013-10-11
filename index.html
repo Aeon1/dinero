@@ -70,19 +70,7 @@
 		<h1>Midete<input type="hidden" id="online" /></h1>
 	</div><!-- /header -->
   
-<style>
-.image{width: 45%;height: 45%; float: left;margin: 2.5%;cursor: pointer;}
-.click {
-       filter: invert(100%);
--webkit-filter: invert(100%);
--moz-filter: invert(100%);
--o-filter: invert(100%);
--ms-filter: invert(100%);
-background-color: red;
-      }
 
-#page3{background-color: #00BBB3;}
-</style>
 	<div data-role="content" id="fondo">
     <input type="number" id="me_gaste" placeholder="$" />
     <input type="hidden" id="cat" />	
@@ -184,7 +172,8 @@ background-color: red;
 		<h1>Metas</h1>
 	</div><!-- /header -->
 
-	<div data-role="content">	
+	<div data-role="content">
+    <input type="button" value="sincronizar" onclick="sincro()" />
 		<table data-role="table" id="my-tab" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
     <thead><tr><th data-priority="1">dato</th></tr></thead>
     <tbody id="consin"></tbody>

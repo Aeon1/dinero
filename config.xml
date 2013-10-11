@@ -10,6 +10,12 @@
 		<author href="" email="">
 
 		</author>
+		<supports-screens
+   android:largeScreens="true"
+   android:normalScreens="true"
+   android:smallScreens="true"
+   android:resizeable="true"
+   android:anyDensity="true" />
 		<preference name="phonegap-version" value="2.9.0" />
 		<preference name="orientation" value="default" />
 		<preference name="target-device" value="universal" />
