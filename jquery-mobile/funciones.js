@@ -655,7 +655,10 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
     function loadmeta1(tx,results){
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');
+        var ww=len*100;
+        $('#thelist1').css('width',ww+'%');
         for (var i=0; i<len; i++){ 
-            $('#thelist').append("<li><div class='contenedorimg mover'><img class='imagenmeta' src='"+results.rows.item(i).imagen+"' alt='Sin imagen'/></div><div class='contpremeta'>Meta: $<span>'"+results.rows.item(i).precio+"'</span></div></li>");
-        }        
+            $('#thelist').append("<div .contenido><div class='contenedorimg mover'><label>Agregado el "+results.rows.item(i).fecha+"</label><img class='imagenmeta' src='"+results.rows.item(i).imagen+"' alt='Sin imagen'/></div><div class='contpremeta'>Meta: $<span>'"+results.rows.item(i).precio+"'</span></div><div data-role='controlgroup' data-type='horizontal' data-mini='true' style='text-align: center;'><a href='#' data-role='button' data-icon='edit' data-iconpos='left'>Editar meta</a><a href='#metas_insert' data-role='button' data-icon='plus' data-iconpos='left''>Añadir meta</a></div></div>");
+        } 
+               
     }
