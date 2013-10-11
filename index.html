@@ -9,6 +9,12 @@
 	<script src="jquery-mobile/jquery.mobile-1.3.2.min.js"></script>
     <script src="jquery-mobile/funciones.js"></script>
     <script src="jquery-mobile/fastclick.js"></script>
+    <link rel="stylesheet" href="jquery-mobile/style.css"/> 
+    
+    <script type="text/javascript" src="jquery-mobile/iscroll.js"></script>
+<script type="text/javascript" src="jquery-mobile//index.js"></script>
+<link rel="stylesheet" href="jquery-mobile/style.css">
+
     <script type="text/javascript" charset="utf-8">    
     // Espera a que PhoneGap se inicie
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -88,7 +94,7 @@
     <ul>
         <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()" >Metas</a></li>
-        <li><a href="" rel="external"  id="" data-icon="back">Balance</a></li>
+        <li><a href=""   id="" data-icon="back">Balance</a></li>
     </ul>
     </div>
     <div data-role="popup" id="configuracion" data-theme="d">
@@ -171,8 +177,17 @@
 		<h1>Metas</h1>
 	</div><!-- /header -->
 	<div data-role="content" id="metasxx">
-    <div class="contenedorimg" id="contenedorimg"></div>
-    	<a href="#metas_insert">insertar</a>
+    <div id="wrapper">
+	<div id="scroller">
+		<ul id="thelist">    
+    </ul>
+	</div>
+</div>
+
+    	<div data-role="controlgroup" data-type="horizontal" data-mini="true" style="text-align: center;">
+    <a href="#" data-role="button" data-icon="edit" data-iconpos="left">Editar meta</a>
+    <a href="#metas_insert" data-role="button" data-icon="plus" data-iconpos="left">Añadir meta</a>
+</div>
 	</div><!-- /content -->
 
 </div><!-- /page -->
@@ -183,7 +198,9 @@
     
 	<div data-role="content">
 	<form>
+    <label>Cual es tu meta?</label>
     <input type="text" id="metnombre" placeholder="Titulo de la meta" />
+    Cual es el precio?
     <input type="number" id="metprecio" placeholder="precio $"/>
     <fieldset data-role="controlgroup" data-type="horizontal">
         <legend>En cuanto tiempo?</legend>
@@ -194,9 +211,10 @@
         <input type="radio" name="radio2" id="radio-choice-h-2c2" value="meses">
         <label for="radio-choice-h-2c2">Meses</label>
     </fieldset>
-    <input type="text" id="metperiodo" placeholder="Dias, Semanas, Meses" />
+    <label>En cuanto tiempo?</label>
+    <input type="number" id="metperiodo" placeholder="Dias, Semanas, Meses" />
     <input type="hidden" id="metperiododias" value="dias"/>
-    <img class="imagenmeta" id="imgop" style="display: none;"/>    
+    <div class="contenedorimg"><img class="imagenmeta" id="imgop" style="display: none;"/> </div>       
     <input type="button" value="Seleccionar imagen" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" />
     <input type="hidden" id="meturlimg" value="" />
     <input type="button" id="metsave" value="Guardar Meta" onclick="savemeta()" />
@@ -236,6 +254,7 @@
 	</div><!-- /content -->
 
 </div><!-- /page -->
-
+<script src="jquery-mobile/iscroll.js"></script>
+<script src="jquery-mobile/index.js"></script>
   </body>
 </html>

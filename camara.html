@@ -1,44 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Ejemplo de Camera</title>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-    <script type="text/javascript" charset="utf-8">
-    var pictureSource;   // Origen de la imagen
-    var destinationType; // Formato del valor retornado
-    // Espera a que PhoneGap conecte con el dispositivo.
-    document.addEventListener("deviceready",onDeviceReady,false);
-    // PhoneGap esta listo para usarse!
-    function onDeviceReady() {
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-    }
-    function onPhotoURISuccess(imageURI) {
-      // Obtiene el elemento HTML de la imagen
-      var largeImage = document.getElementById('largeImage');
-      // Revela el elemento de la imagen
-      largeImage.style.display = 'block';
-      // Muestra la foto capturada
-      // Se usan reglas CSS para dimensionar la imagen
-      largeImage.src = imageURI;
-    }
-    // Un botón llamara a esta función
-    function getPhoto(source) {
-      // Retorna la ruta del fichero de imagen desde el origen especificado
-      navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
-        destinationType: destinationType.FILE_URI,
-        sourceType: source });
-      }
-    // Llamado cuando algo malo ocurre
-    function onFail(message) {
-      alert('Ocurrió un error: ' + message);
-    }
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<title>Demo Galeria iScroll</title>
+<link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.3.2.min.css" />
+    
+	
+    
+    
 
-    </script>
-  </head>
-  <body>  
-    <button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">Desde el álbum de fotos</button><br>
-    <img style="display:none;" id="largeImage" src="" />
-  </body>
-</html>
+<script type="text/javascript" src="jquery-mobile/iscroll.js"></script>
+<script type="text/javascript" src="jquery-mobile//index.js"></script>
+
+<link rel="stylesheet" href="jquery-mobile/style.css">
+
+</head>
+<body>
+<div id="wrapper" style="overflow: hidden; display: block;">
+	<div id="scroller" style="-webkit-transition: -webkit-transform 0ms; transition: -webkit-transform 0ms; -webkit-transform-origin: 0px 0px; -webkit-transform: translate(0px, 0px) scale(1) translateZ(0px); width: 9600px;">
+		<ul id="thelist">
+			<li><div style="width: 100%;height: 500px;background: blue;"></div></li>
+			<li><div style="width: 100%;height: 500px;background: red;"></div></li>
+            <li><div style="width: 100%;height: 500px;background: yellow;"></div></li>
+            </ul>
+	</div>
+</div>
+
+
+</body></html>
