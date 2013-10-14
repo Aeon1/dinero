@@ -16,6 +16,17 @@
     </script>
   </head>
   <body>
+  <div data-role="page" id="cargando">
+
+	<div data-role="header">
+		<h1></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+			<h1>Cargando datos...</h1>
+	</div><!-- /content -->
+
+</div><!-- /page -->
   <div data-role="page" id="page1">
 
 	<div data-role="header">
@@ -38,19 +49,15 @@
     </div>
     <input type="button" value="enviar" id="save_sueldo"  />
     <p id="send" style="text-align: center;"></p>
-</form>
-			
+</form>			
 	</div><!-- /content -->
-
 </div><!-- /page -->
 
 <div data-role="page" id="page2">
-
 	<div data-role="header">
 		<h1>gastos fijos</h1>
         <label id="fgs" style="display: none;"></label>
 	</div><!-- /header -->
-
 	<div data-role="content">
     <input type="button" value="Continuar" id="continue" />	
 	<label>concepto</label><input type="text" id="concepto" placeholder="Ejemplo: Renta" value="" />
@@ -59,20 +66,17 @@
     <table data-role="table" id="my-table" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
     <thead><tr><th >Concepto</th><th >Pago</th></tr></thead>
     <tbody id="gastos"></tbody>
-    <tfoot><tr><th>total</th><th id="monto"></th></tr></tfoot>
+    
     </table>
+    <p style="text-align: center;" id="nota">Puede agregarlos y eliminarlos despues en ajustes</p>
 	</div><!-- /content -->
 
 </div><!-- /page -->
-
 <div data-role="page" id="page3">
-
 	<div data-role="header">
 		<h1>Midete<input type="hidden" id="online" /></h1>
 	</div><!-- /header -->
-  
-
-	<div data-role="content" id="fondo">
+    <div data-role="content" id="fondo">
     <input type="number" id="me_gaste" placeholder="$" />
     <input type="hidden" id="cat" />	
         <img src="jquery-mobile/images/vivir.png" class="image" cat="Vivir"/>
@@ -89,7 +93,7 @@
     <ul>
         <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()" >Metas</a></li>
-        <li><a href=""   id="" data-icon="back">Balance</a></li>
+        <li><a href=""   id="" data-icon="back" onclick="check_sincronizacion();">Balance</a></li>
     </ul>
     </div>
     <div data-role="popup" id="configuracion" data-theme="d">
@@ -131,7 +135,7 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home"  >Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
-        <li><a href="#" id="" data-icon="back">Balance</a></li>
+        <li><a href="#" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
     </div>
    
@@ -161,7 +165,7 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home" >Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
-        <li><a href="#" id="" data-icon="back">Balance</a></li>
+        <li><a href="#" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
     </div>   
 </div>
@@ -171,12 +175,11 @@
 	<div data-role="header">
 		<h1>Metas</h1>
 	</div><!-- /header -->
-	<div data-role="content" id="metasxx">
-    <div id="thelist" style="overflow-x:auto;height: 100%;">
-    <div id="thelist1">
-    </div>
-    </div>
-    	
+	<div data-role="content" id="metasxx">    
+    <div data-role="collapsible-set" data-theme="c" data-content-theme="c" data-collapsed-icon="check" id="showmeta">
+  
+</div>
+    <a href="#metas_insert" data-role="button"  data-transition="pop" data-inline="true">Añadir meta</a>	
 	</div><!-- /content -->
 
 </div><!-- /page -->
@@ -215,7 +218,7 @@
     <ul>
         <li><a href="#configuracion1" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
-        <li><a href="#balance" id="" data-icon="back">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
     </div> 
     <div data-role="popup" id="configuracion1" data-theme="d">
@@ -240,6 +243,18 @@
     <thead><tr><th data-priority="1">dato</th></tr></thead>
     <tbody id="consin"></tbody>
     </table>		
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+<div data-role="page" id="">
+
+	<div data-role="header">
+		<h1>configuracion</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+			
 	</div><!-- /content -->
 
 </div><!-- /page -->
