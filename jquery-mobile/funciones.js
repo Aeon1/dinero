@@ -687,3 +687,17 @@ function mostrardatos(tx,results){
                               }); 
                               }}
 }
+
+function ccbalance(){
+    var clave=$("#resultado").text();
+    $.ajax({
+                             type: 'POST',
+                             url: 'http://2030.mx/dinero/ejecutar.php',
+                             data: {clave:clave},
+                             beforeSend: function () {$('#resbalance').html('Obteniendo datos...')},
+                             success: function(data) {
+                                $('#resbalance').html(data);
+                                }                          
+                              }); 
+    
+}

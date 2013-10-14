@@ -93,7 +93,7 @@
     <ul>
         <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()" >Metas</a></li>
-        <li><a href=""   id="" data-icon="back" onclick="check_sincronizacion();">Balance</a></li>
+        <li><a href="#balance"   id="" data-icon="back" onclick="check_sincronizacion();">Balance</a></li>
     </ul>
     </div>
     <div data-role="popup" id="configuracion" data-theme="d">
@@ -135,7 +135,7 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home"  >Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
-        <li><a href="#" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
     </div>
    
@@ -165,7 +165,7 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home" >Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
-        <li><a href="#" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
     </div>   
 </div>
@@ -234,15 +234,12 @@
 <div data-role="page" id="balance">
 
 	<div data-role="header">
-		<h1>configuracion</h1>
+		<h1>balance</h1>
 	</div><!-- /header -->
-
-	<div data-role="content">	
-		<input type="button" value="sincronizar" onclick="sincro()" />
-		<table data-role="table" id="my-tab" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
-    <thead><tr><th data-priority="1">dato</th></tr></thead>
-    <tbody id="consin"></tbody>
-    </table>		
+	<div data-role="content">
+    <input type="button" id="checkbalance" value="Ver mi balance" />
+	<div id="resbalance">
+    </div>			
 	</div><!-- /content -->
 
 </div><!-- /page -->
