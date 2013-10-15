@@ -179,10 +179,10 @@
         <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>        
         <button data-icon="arrow-r" data-iconpos="right" id="nexts" onclick="cargarmeta(+1);">Siguiente</button>
     </fieldset>
-    <h2 style="text-align: center;">Meta</h2>
+    <h2 style="text-align: center;"></h2>
     <div class="contenedorimg"><img class="imagenmeta" id="imgop1"/> </div>
-    <p style="text-align: center;">Agregado: <span id="fecmeta"></span></p>
-    <h3>Precio: $<span id="premeta"></span></h3>
+    <p style="text-align: center;" id="fecmeta"></p>
+    <h3 id="premeta"></h3>
     <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;">
         <button data-icon="edit" data-iconpos="left" id="editmeta">Editar</button>
         <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );">Agregar</button>

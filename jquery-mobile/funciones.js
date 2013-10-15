@@ -458,9 +458,9 @@ function checkgasfi() {
         tx.executeSql('SELECT * FROM gasto', [], algunax2);
     });
     } 
-function algunax2(tx,results){
-    console.log('gastos');
+function algunax2(tx,results){    
     var len = results.rows.length;
+    console.log('gastos'+len);
     $('table #gastos_change').html('');
         for (var i=0; i<len; i++){
             $('table #gastos_change').prepend( "<tr><td>"+results.rows.item(i).concepto+"</td><td>"+results.rows.item(i).valor+"</td><td><input type='checkbox' value='"+results.rows.item(i).clave+"-"+results.rows.item(i).concepto+"-"+results.rows.item(i).valor+"' class='xj' /></td></tr>");         
@@ -626,8 +626,8 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
        var dato=valmetas[m].split('-');       
        $('#metasxx h2').html(dato[1]);
        if (dato[4]!=0){$('#imgop1').attr('src',dato[4]);}
-       $('#fecmeta').html(dato[5]);
-       $('#premeta').html(dato[2]);
+       $('#fecmeta').html("Agregado: "+dato[5]);
+       $('#premeta').html("Precio: $"+dato[2]);
        $('#editmeta').attr('editar',dato[0]);
        
        
