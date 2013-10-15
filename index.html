@@ -91,7 +91,7 @@
 <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c" >
     <div data-role="navbar" >
     <ul>
-        <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
+        <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()" >Metas</a></li>
         <li><a href="#balance"   id="" data-icon="back" onclick="check_sincronizacion();">Balance</a></li>
     </ul>
@@ -216,7 +216,7 @@
 <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
     <div data-role="navbar" >
     <ul>
-        <li><a href="#configuracion1" id="" data-icon="gear" data-rel="popup">ajustes</a></li>
+        <li><a href="#configuracion1" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
         <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
@@ -234,14 +234,28 @@
 <div data-role="page" id="balance">
 
 	<div data-role="header">
-		<h1>balance</h1>
+		<h1>Balance</h1>
 	</div><!-- /header -->
 	<div data-role="content">
     <input type="button" id="checkbalance" value="Ver mi balance" onclick=" ccbalance()"/>
 	<div id="resbalance">
     </div>			
 	</div><!-- /content -->
-
+<div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
+    <div data-role="navbar" >
+    <ul>
+        <li><a href="#configuracion2" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
+        <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#page3" id="" data-icon="home">Principal</a></li>
+    </ul>
+    </div> 
+    <div data-role="popup" id="configuracion2" data-theme="d">
+        <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
+            <li><a href="#config_gf" onclick="check_gas_fi()">Gastos fijos</a></li>
+        </ul>
+</div>  
+</div>
 </div><!-- /page -->
 
 <div data-role="page" id="">
