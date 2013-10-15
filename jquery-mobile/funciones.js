@@ -206,6 +206,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
+    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha)');
     if (xtsjf=='0'){
         if (online=='1'){
                 $.ajax({
@@ -634,19 +635,40 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
     };
     
     //cargar meta
+    var m=0; 
      function loadmeta() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
         tx.executeSql('SELECT * FROM metas', [], loadmeta1);
     });
     }
+    var valmetas= new Array();
     function loadmeta1(tx,results){
+        valmetas.length=0;
         var len = results.rows.length;
-        console.log('se encontraron '+len+' resgistros');
+        console.log('se encontraron '+len+' resgistros');        
         for (var i=0; i<len; i++){ 
-            $('#metasxx').html("<img src='"+results.rows.item(i).imagen+"' valores='"+results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha+"' style='width:50%/>");
+           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha);
         } 
-               
+         cargarmeta();      
+    }
+    
+    function cargarmeta(signo){ 
+           if (!signo){signo=0}            
+        if (m>=0 || m<=valmetas.length){ m+=signo;}
+        
+        var nm=1+m;
+        if (m==0){$('#lasts').attr('disabled','true');}else{$('#lasts').removeAttr('disabled');}
+        if (m==(valmetas.length-1)){$('#nexts').attr('disabled','true');}else{$('#nexts').removeAttr('disabled');}
+        $('#nmeta').html(nm);
+        
+       var dato=valmetas[m].split('-');       
+       $('#metasxx h2').html(dato[1]);
+       $('#imgop').attr('scr',dato[4]);
+       $('#fecmeta').html(dato[5]);
+       $('#premeta').html(dato[2]);
+       
+       
     }
     
     //mandar datos al servidor

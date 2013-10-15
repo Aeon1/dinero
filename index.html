@@ -93,7 +93,7 @@
     <ul>
         <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()" >Metas</a></li>
-        <li><a href="#balance"   id="" data-icon="back" onclick="check_sincronizacion();">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();">Balance</a></li>
     </ul>
     </div>
     <div data-role="popup" id="configuracion" data-theme="d">
@@ -175,10 +175,37 @@
 	<div data-role="header">
 		<h1>Metas</h1>
 	</div><!-- /header -->
-	<div data-role="content" id="metasxx">    
-   
-    <a href="#metas_insert" data-role="button"  data-transition="pop" data-inline="true">Añadir meta</a>	
+	<div data-role="content" id="metasxx">
+    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" style="text-align: center;">
+        <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>
+        <button >Meta <span id="nmeta"></span></button>
+        <button data-icon="arrow-r" data-iconpos="right" id="nexts" onclick="cargarmeta(+1);">Siguiente</button>
+    </fieldset>
+    <h2 style="text-align: center;">Meta</h2>
+    <div class="contenedorimg"><img class="imagenmeta" id="imgop"/> </div>
+    <p style="text-align: center;">Agregado: <span id="fecmeta"></span></p>
+    <h3>Precio: $<span id="premeta"></span></h3>
+    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" style="text-align: center;">
+        <button data-icon="edit" data-iconpos="left">Editar</button>
+        <button ></button>
+        <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );">Agregar</button>
+    </fieldset>    	
 	</div><!-- /content -->
+    <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
+    <div data-role="navbar" >
+    <ul>
+        <li><a href="#configuracion2" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
+        <li><a href="#page3" id="" data-icon="home">Principal</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
+    </ul>
+    </div> 
+    <div data-role="popup" id="configuracion2" data-theme="d">
+        <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
+            <li><a href="#config_gf" onclick="check_gas_fi()">Gastos fijos</a></li>
+        </ul>
+</div>  
+</div>
 
 </div><!-- /page -->
 <div data-role="page" id="metas_insert">
