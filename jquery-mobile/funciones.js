@@ -644,7 +644,7 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');
         for (var i=0; i<len; i++){ 
-            $('#showmeta').html("<div data-role='collapsible'><h3>"+results.rows.item(i).nombre+"</h3><p>Agregado: "+results.rows.item(i).fecha+"<img src='"+results.rows.item(i).imagen+"'/></p></div>");
+            $('#metasxx').html("<img src='"+results.rows.item(i).imagen+"' valores='"+results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha+"' style='width:50%/>");
         } 
                
     }

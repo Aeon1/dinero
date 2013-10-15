@@ -24,37 +24,3 @@
 .mover{width: 100%;height: auto;}
 .contenido{position: relative;float: left;height: 100%;}
 
-
-/*moving*/
-#wrapper {
-	width:100%;
-	float:left;
-	position:absolute;	/* On older OS versions "position" and "z-index" must be defined, */
-	z-index:1;			/* it seems that recent webkit is less picky and works anyway. */
-	overflow:hidden;
-	display:none;
-	top:45px;
-	bottom:48px
-}
-
-#scroller {
-	float:left;
-}
-
-#scroller ul {
-	list-style:none;
-	display:block;
-	float:left;
-	width:100%;
-}
-
-#scroller li {
-	display:block; 
-	float:left;
-	text-align:center;
-}
-
-@-webkit-keyframes loading {
-	from { -webkit-transform:rotate(0deg) translateZ(0); }
-	to { -webkit-transform:rotate(360deg) translateZ(0); }
-}
