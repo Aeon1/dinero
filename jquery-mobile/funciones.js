@@ -599,7 +599,6 @@ var clave=$("#resultado").text();
       // Muestra la foto capturada
       // Se usan reglas CSS para dimensionar la imagen
       largeImage.src = imageURI;
-      document.getElementById('meturlimg').value=imageURI;
     }
     // Un botón llamara a esta función
     function getPhoto(source) {
@@ -664,7 +663,11 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
         
        var dato=valmetas[m].split('-');       
        $('#metasxx h2').html(dato[1]);
-       $('#imgop1').attr('scr',dato[4]);
+       if (dato[4]!=0){$('#imgop1').attr('src',dato[4]);}
+       
+      // var imm=document.getElementById('imgop1');
+//       imm.style.display = 'block';
+//       imm.src='http://files.myopera.com/licona/albums/423879/mujer%20arcoiris.jpg';
        $('#fecmeta').html(dato[5]);
        $('#premeta').html(dato[2]);
        

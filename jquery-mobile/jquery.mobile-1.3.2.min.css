@@ -18,7 +18,7 @@
   display: none !important;  
 }
 .contenedorimg{text-align: center;background: whitesmoke;border-radius: 15px;border: 1px solid #c0c0c0}
-.imagenmeta{max-width: 100%; height: auto;border-radius: 15px;}
+.imagenmeta{max-width: 100%; height: auto;border-radius: 15px;display: block;}
 .contpremeta{padding: 15px;text-align: center;background: whitesmoke;border-radius: 15px;border: 1px solid #c0c0c0;font-size: 30px;font-weight: 700;}
 .contpremeta{font-size: 35px;color: #C0C0C0;}
 .mover{width: 100%;height: auto;}

@@ -176,18 +176,16 @@
 		<h1>Metas</h1>
 	</div><!-- /header -->
 	<div data-role="content" id="metasxx">
-    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" style="text-align: center;">
-        <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>
-        <button >Meta <span id="nmeta"></span></button>
+    <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;">
+        <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>        
         <button data-icon="arrow-r" data-iconpos="right" id="nexts" onclick="cargarmeta(+1);">Siguiente</button>
     </fieldset>
     <h2 style="text-align: center;">Meta</h2>
     <div class="contenedorimg"><img class="imagenmeta" id="imgop1"/> </div>
     <p style="text-align: center;">Agregado: <span id="fecmeta"></span></p>
     <h3>Precio: $<span id="premeta"></span></h3>
-    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true" style="text-align: center;">
+    <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;">
         <button data-icon="edit" data-iconpos="left">Editar</button>
-        <button ></button>
         <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );">Agregar</button>
     </fieldset>    	
 	</div><!-- /content -->
