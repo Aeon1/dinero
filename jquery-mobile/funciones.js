@@ -664,7 +664,7 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
         
        var dato=valmetas[m].split('-');       
        $('#metasxx h2').html(dato[1]);
-       $('#imgop').attr('scr',dato[4]);
+       $('#imgop1').attr('scr',dato[4]);
        $('#fecmeta').html(dato[5]);
        $('#premeta').html(dato[2]);
        
