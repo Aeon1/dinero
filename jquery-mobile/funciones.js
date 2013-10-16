@@ -134,19 +134,19 @@ function checar_c6(tx,results){
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
  var pictureSource;   // Origen de la imagen
     var destinationType; // Formato del valor retornado
- function onDeviceReady() {          
+ function onDeviceReady() { 
+    checar_c5();checar_c1(); 
+     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(claveDB,successCB,clave_error); 
     document.addEventListener("online", onOnline, false);
         document.addEventListener("offline", onOffline, false);
- checar_c5();checar_c1(); FastClick.attach(document.body);
+ FastClick.attach(document.body);
  checkConnection();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
- var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-        db.transaction(claveDB,successCB,clave_error);      
+
          
-        
-        
-    }
+      }
      var online;    
 function checkConnection() {
         var networkState = navigator.network.connection.type;
@@ -164,7 +164,7 @@ function checkConnection() {
     function onOnline() {
    online='1'; 
    check_sincronizacion();
-   corte();
+  corte();
 }
 function onOffline() {
    online='0'; 
@@ -189,16 +189,16 @@ var clave=msje1+msje2+msje3+msje4+msje5+msje6;
 //optener fecha de registro
 var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if (h<10){h='0'+h} if (m<10){m='0'+m} if (s<10){s='0'+s}
 var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
-   tx.executeSql('DROP TABLE IF EXISTS clave');;
-    tx.executeSql('DROP TABLE IF EXISTS sueldo');
-    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
-    tx.executeSql('DROP TABLE IF EXISTS gasto');
-     tx.executeSql('DROP TABLE IF EXISTS metas');
+//   tx.executeSql('DROP TABLE IF EXISTS clave');
+//    tx.executeSql('DROP TABLE IF EXISTS sueldo');
+//    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
+//    tx.executeSql('DROP TABLE IF EXISTS gasto');
+//     tx.executeSql('DROP TABLE IF EXISTS metas');
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
-    tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT),nombre,periodo,periodo1,imagen'); 
+    tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha,ahorro)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha)');
     if (xtsjf=='0'){
         if (online=='1'){
                 $.ajax({
@@ -219,7 +219,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
                                     db.transaction(
                                     function(tx){
                                     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
-                                   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha,'0','0','0','0']);//se inserta la clave generada para enviarla al servidor
+                                   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha]);//se inserta la clave generada para enviarla al servidor
                                     console.log('enviados pero ocurrio error y se mandan al telefono');
                                    },successCB)
                                    }
@@ -228,10 +228,10 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
                               });
             }else{
     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
-   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha,'0','0','0','0']);//se inserta la clave generada para enviarla al servidor
+   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha]);//se inserta la clave generada para enviarla al servidor
       console.log('datos guardados en telefono'+clave);;
     }
-    } else{successCB();console.log('clave encontrada '+xtsjf)}  
+    } else{successCB();console.log('clave encontrada '+xtsjf);}  
 
     }
  function clave_error(err) {
@@ -240,7 +240,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
  function successCB() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(
-        function(tx) {
+        function(tx) { 
         tx.executeSql('SELECT * FROM clave', [], querySuccess, clave_error);
     },clave_error);
     }
@@ -279,7 +279,7 @@ function save_sueldo() {
                                     db.transaction(
                                     function(tx){
                                    tx.executeSql('insert into sueldo(id,fiva,sueldo) values(?,?,?)',[clave,fiva,sueldo]);
-                                   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c2',clave,fiva,sueldo,'0','0','0','0','0','0','0','0']);//se inserta el sueldo para enviarlo al servidor
+                                   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c2',clave,fiva,sueldo,'0','0','0','0']);//se inserta el sueldo para enviarlo al servidor
                                     $.mobile.navigate( "#page2",{transition : "slide"} );
                                    console.log("mandados a servidor regreso un error");
                                   })
@@ -289,7 +289,7 @@ function save_sueldo() {
                               });
             }else{
     tx.executeSql('insert into sueldo(id,fiva,sueldo) values(?,?,?)',[clave,fiva,sueldo]);
-    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c2',clave,fiva,sueldo,'0','0','0','0','0','0','0','0']);//se inserta el sueldo para enviarlo al servidor
+    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c2',clave,fiva,sueldo,'0','0','0','0']);//se inserta el sueldo para enviarlo al servidor
    console.log("se insertaron los registros en el telefono");
    $.mobile.navigate( "#page2",{transition : "slide"} );
 }
@@ -342,7 +342,7 @@ function change_sueldo() {
                                         db.transaction(
                                         function(tx){
                                         tx.executeSql('update sueldo set fiva=?, sueldo=? where id=?',[fiva,sueldo,clave]);
-                                        tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c3',clave,fiva,sueldo,'0','0','0','0','0','0','0','0']);
+                                        tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c3',clave,fiva,sueldo,'0','0','0','0']);
                                         $('#rgd').text('Datos guardados');
                                         console.log('el servidor marco error y se guardaron en el telefono');
                                         })
@@ -351,7 +351,7 @@ function change_sueldo() {
                               });
             }else{
     tx.executeSql('update sueldo set fiva=?, sueldo=? where id=?',[fiva,sueldo,clave]);
-    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c3',clave,fiva,sueldo,'0','0','0','0','0','0','0','0']);//se inserta el sueldo para enviarlo al servidor
+    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c3',clave,fiva,sueldo,'0','0','0','0']);//se inserta el sueldo para enviarlo al servidor
    $('#rgd').text('Datos guardados');
    console.log('No se detecto internet y se guardaron en el telefono');
    }
@@ -385,7 +385,7 @@ function save_gastos_f() {
                                         db.transaction(
                                         function(tx){
                                             tx.executeSql('insert into gasto(clave,concepto, valor) values(?,?,?)',[clave,v1,v2],nueva_consulta);
-                                            tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c4',clave,'','',v1,'0',v2,'0','0','0','0','0']);
+                                            tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c4',clave,'','',v1,'0',v2,'0']);
                                             $('#concepto,#pago').val('');
                                             })
                                         }                              
@@ -393,7 +393,7 @@ function save_gastos_f() {
                               });
             }else{ 
     tx.executeSql('insert into gasto(clave,concepto, valor) values(?,?,?)',[clave,v1,v2],nueva_consulta);
-    ttx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c4',clave,'','',v1,'0',v2,'0','0','0','0','0']);
+    ttx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c4',clave,'','',v1,'0',v2,'0']);
     $('#concepto,#pago').val('');
     }
 });
@@ -440,7 +440,7 @@ function save_gastos_f_change() {
                                         db.transaction(
                                     function (tx){
                                         tx.executeSql('insert into gasto(clave,concepto, valor) values(?,?,?)',[clave,v1,v2],checkgasfi);
-                                        tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c4',clave,'','',v1,'0',v2,'0','0','0','0','0']);
+                                        tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?)',['c4',clave,'','',v1,'0',v2,'0']);
                                         console.log('El servidor regreso un error y se guardaron en telefono');
                                         $('#concepto_change,#pago_change').val('');
                                         });
@@ -449,7 +449,7 @@ function save_gastos_f_change() {
                               });
             }else{
     tx.executeSql('insert into gasto(clave,concepto, valor) values(?,?,?)',[clave,v1,v2],checkgasfi);
-    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c2',clave,'','',v1,'0',v2,'0','0','0','0','0']);
+    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c2',clave,'','',v1,'0',v2,'0']);
     console.log('se guardo en telefono por no encontrarce internet');
     $('#concepto_change,#pago_change').val('');
     
@@ -496,7 +496,7 @@ function delete_gastos_f() {
                                          db.transaction(                                          
                                          function(tx){
                                         tx.executeSql("delete from gasto where clave=? and concepto=? and valor=?",[a[0],a[1],a[2]]);
-                                        tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c5',a[0],'','',a[1],'0',a[2],'0','0','0','0','0']);
+                                        tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c5',a[0],'','',a[1],'0',a[2],'0']);
                                         console.log('El servidor regreso un error y se guardaron en telefono');
                                         })
                                         }
@@ -504,7 +504,7 @@ function delete_gastos_f() {
                               });
             }else{
     tx.executeSql("delete from gasto where clave=? and concepto=? and valor=?",[a[0],a[1],a[2]]);
-  tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c5',a[0],'','',a[1],'0',a[2],'0'],'0','0','0','0');
+  tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c5',a[0],'','',a[1],'0',a[2],'0']);
    console.log('No se detecto internet y se guardo en telefono');
    }
    $(this).parents('tr').hide('slow');
@@ -530,16 +530,20 @@ var clave=$("#resultado").text();
                              data: {id:'c6',clave:clave,categoria:cat,valor:pr,fecha:fecha},
                              beforeSend: function() {},
                              success: function(data) {
-                                 var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-                                if (data=='1'){                             
+                                 
+                                if (data=='1'){ 
+                                     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+                                        db.transaction(
+                                        function (tx){
                                         $( "#mensaje" ).popup("open").fadeIn().delay(1000).fadeOut();
                                         $('#me_gaste').val('');$('#me_gaste').focus();                                        
-                                        console.log('Datos guardados en el servidor');                                    
+                                        console.log('Datos guardados en el servidor');   
+                                        })                                 
                                     }else{
                                          var db = window.openDatabase("Database", "1.0", "claves test", 200000);
                                         db.transaction(
                                         function (tx){
-                                           tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c6',clave,'','','0',cat,pr,fecha,'0','0','0','0']);//se inserta el sueldo para enviarlo al servidor
+                                           tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c6',clave,'','','0',cat,pr,fecha]);//se inserta el sueldo para enviarlo al servidor
                                           $( "#mensaje" ).popup("open").fadeIn().delay(1000).fadeOut();
                                            $('#me_gaste').val('');$('#me_gaste').focus(); 
                                            
@@ -549,7 +553,7 @@ var clave=$("#resultado").text();
                                 }                           
                               });
             }else{
-   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c6',clave,'','','0',cat,pr,fecha],'0','0','0','0');//se inserta el sueldo para enviarlo al servidor
+   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c6',clave,'','','0',cat,pr,fecha]);//se inserta el sueldo para enviarlo al servidor
     
     $('#me_gaste').val('');$('#me_gaste').focus();
     $( "#mensaje" ).popup("open").fadeIn().delay(1000).fadeOut();
@@ -594,44 +598,12 @@ function savemeta(){
 var fecha = dd+" del "+mm+" de "+yyyy;
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {          
-if (online=='1'){
-                $.ajax({
-                             type: 'POST',
-                             url: 'http://2030.mx/dinero/consultas.php',
-                             data: {id:'c7',clave:clave,meta:nommeta,valor:precio,periodo:periodo,periodo1:periodo1,imagen:urlimagen,fecha:fecha},
-                             beforeSend: function() {},
-                             success: function(data) {                              
-                                if (data=='1'){ 
-                                    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-                                        db.transaction(
-                                        function (tx){
-                                        tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,ahorro) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha,'0']);                                   
-                                        $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
-                                        $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
-                                        console.log('guardadoe en servidor'+ fecha);
-                                        })
-                                    }else{
-                                         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-                                        db.transaction(
-                                        function (tx){
-                                        tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c7',clave,'0','0','0','0',precio,fecha,nommeta,periodo,periodo1,urlimagen]);
-                                          tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,ahorro) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha,'0']);
-                                            $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
-                                            $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
-                                           
-                                           console.log('El servidor regreso un error y se guardo en telefono');
-                                        })
-                                        }                              
-                                }                           
-                              });
-            }else{
-            tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c7',clave,'0','0','0','0',precio,fecha,nommeta,periodo,periodo1,urlimagen]);
-            tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,ahorro) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha,'0']);
+tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha) values(?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha]);
             $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
             $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
-    }
+
     });
-    };
+    }
     
     //cargar meta
     var m=0; 
@@ -647,7 +619,7 @@ if (online=='1'){
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');        
         for (var i=0; i<len; i++){ 
-           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha+'-'+results.rows.item(i).ahorro);
+           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha);
         } 
          cargarmeta();      
     }
@@ -726,7 +698,6 @@ function ccbalance(){
                               }); 
     
 }
-
 function corte(){
    var clave=$("#resultado").text();
     $.ajax({
@@ -743,10 +714,10 @@ function corte(){
                               });  
 }
 function showConfirm() {
-    navigator.notification.confirm(
+                                    navigator.notification.confirm(
                                     'Guardaste el dinero para tu meta?',
-                                    onConfirm,
-                                    'Meta cumplida?', 
+                                    onConfirm,  
+                                    'Meta compida?', 
                                      'Si,No' );
 }
 
@@ -759,3 +730,4 @@ function onConfirm(button){
     }
     
 }
+
