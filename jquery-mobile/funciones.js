@@ -134,15 +134,18 @@ function checar_c6(tx,results){
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
  var pictureSource;   // Origen de la imagen
     var destinationType; // Formato del valor retornado
- function onDeviceReady() {    
+ function onDeviceReady() {          
     document.addEventListener("online", onOnline, false);
         document.addEventListener("offline", onOffline, false);
- checar_c5();checar_c1(); FastClick.attach(document.body);       
-         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-        db.transaction(claveDB,successCB,clave_error);
-        checkConnection();
+ checar_c5();checar_c1(); FastClick.attach(document.body);
+ checkConnection();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
+ var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(claveDB,successCB,clave_error);      
+         
+        
+        
     }
      var online;    
 function checkConnection() {
@@ -186,14 +189,14 @@ var clave=msje1+msje2+msje3+msje4+msje5+msje6;
 //optener fecha de registro
 var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if (h<10){h='0'+h} if (m<10){m='0'+m} if (s<10){s='0'+s}
 var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
-//   tx.executeSql('DROP TABLE IF EXISTS clave');
-//    tx.executeSql('DROP TABLE IF EXISTS sueldo');
-//    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
-//    tx.executeSql('DROP TABLE IF EXISTS gasto');
-//     tx.executeSql('DROP TABLE IF EXISTS metas');
+   tx.executeSql('DROP TABLE IF EXISTS clave');;
+    tx.executeSql('DROP TABLE IF EXISTS sueldo');
+    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
+    tx.executeSql('DROP TABLE IF EXISTS gasto');
+     tx.executeSql('DROP TABLE IF EXISTS metas');
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
-    tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
+    tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT),nombre,periodo,periodo1,imagen'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
     tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha,ahorro)');
     if (xtsjf=='0'){
@@ -216,7 +219,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
                                     db.transaction(
                                     function(tx){
                                     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
-                                    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha,'0','0','0','0']);//se inserta la clave generada para enviarla al servidor
+                                   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha,'0','0','0','0']);//se inserta la clave generada para enviarla al servidor
                                     console.log('enviados pero ocurrio error y se mandan al telefono');
                                    },successCB)
                                    }
@@ -225,8 +228,8 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
                               });
             }else{
     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
-    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha,'0','0','0','0']);//se inserta la clave generada para enviarla al servidor
-      console.log('datos guardados en telefono');
+   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha,nombre,periodo,periodo1,imagen) values(?,?,?,?,?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha,'0','0','0','0']);//se inserta la clave generada para enviarla al servidor
+      console.log('datos guardados en telefono'+clave);;
     }
     } else{successCB();console.log('clave encontrada '+xtsjf)}  
 
@@ -244,7 +247,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
  function querySuccess(tx, results) {
         var len = results.rows.length;        
         for (var i=0; i<len; i++){
-            $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"a<br/>";          
+            $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"<br/>";          
         }
     }
 //guardar el sueldo
@@ -597,12 +600,16 @@ if (online=='1'){
                              url: 'http://2030.mx/dinero/consultas.php',
                              data: {id:'c7',clave:clave,meta:nommeta,valor:precio,periodo:periodo,periodo1:periodo1,imagen:urlimagen,fecha:fecha},
                              beforeSend: function() {},
-                             success: function(data) {
-                                 var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-                                if (data=='1'){                             
+                             success: function(data) {                              
+                                if (data=='1'){ 
+                                    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+                                        db.transaction(
+                                        function (tx){
                                         tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,ahorro) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha,'0']);                                   
                                         $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
                                         $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
+                                        console.log('guardadoe en servidor'+ fecha);
+                                        })
                                     }else{
                                          var db = window.openDatabase("Database", "1.0", "claves test", 200000);
                                         db.transaction(
@@ -739,7 +746,7 @@ function showConfirm() {
     navigator.notification.confirm(
                                     'Guardaste el dinero para tu meta?',
                                     onConfirm,
-                                    'Meta compida?', 
+                                    'Meta cumplida?', 
                                      'Si,No' );
 }
 
