@@ -156,11 +156,12 @@ function checkConnection() {
     states[Connection.CELL_4G]  = '1';  //Conexión movil 4G';
     states[Connection.NONE]     = '0';  //Sin conexión';
       online=states[networkState];
-      if (online=='1'){check_sincronizacion();}
+      if (online=='1'){check_sincronizacion();corte();}
     }
     function onOnline() {
    online='1'; 
    check_sincronizacion();
+   corte();
 }
 function onOffline() {
    online='0'; 
@@ -194,7 +195,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha,ahorro)');
     if (xtsjf=='0'){
         if (online=='1'){
                 $.ajax({
@@ -588,8 +589,8 @@ function savemeta(){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {        
          var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
-var fecha = "Dia "+dd+" de "+mm+" del "+yyyy;
-tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha) values(?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha]);
+var fecha = dd+"/"+mm+"/"+yyyy;
+tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,ahorro) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha,'0']);
 $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
     $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
     });
@@ -609,7 +610,7 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');        
         for (var i=0; i<len; i++){ 
-           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha);
+           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha+'-'+results.rows.item(i).ahorro);
         } 
          cargarmeta();      
     }
@@ -625,11 +626,13 @@ $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
         
        var dato=valmetas[m].split('-');       
        $('#metasxx h2').html(dato[1]);
-       if (dato[4]!=0){$('#imgop1').attr('src',dato[4]);}
-       $('#fecmeta').html("Agregado: "+dato[5]);
+       if (dato[5]!=0){$('#imgop1').attr('src',dato[5]);}
+       $('#fecmeta').html("Agregado: "+dato[6]);
        $('#premeta').html("Precio: $"+dato[2]);
        $('#editmeta').attr('editar',dato[0]);
-       
+       //$('#slider-2').val(dato[3]);
+//       $('#slider-2').attr('max',dato[3]);
+       $('#mosmet').html(dato[4]);
        
     }
     
@@ -684,5 +687,45 @@ function ccbalance(){
                                 $('#resbalance').html(data);
                                 }                          
                               }); 
+    
+}
+
+function corte(){
+   var clave=$("#resultado").text();
+    $.ajax({
+                             type: 'POST',
+                             url: 'http://2030.mx/dinero/corte.php',
+                             data: {clave:clave},
+                             beforeSend: function () {},
+                             success: function(data) {
+                                if (data=='1'){
+                                    showConfirm();     
+     
+                                }
+                                }                          
+                              });  
+}
+//function showConfirm() {
+//    navigator.notification.confirm(
+//                                    'Guardaste el dinero para tu meta?',  // message
+//                                    onConfirm,              // callback to invoke with index of button pressed
+//                                    'Meta compida?',            // title
+//                                     'Si,No' );
+//}
+function showConfirm() {
+    navigator.notification.confirm(
+    'Eres el ganador!',     // mensaje (message)
+    onConfirm,      // función 'callback' a llamar con el índice del botón pulsado (confirmCallback)
+    'Game Over',            // titulo (title)
+        'Reiniciar,Salir'       // botones (buttonLabels)
+    );
+}
+function onConfirm(button){
+    if (button==1){
+    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {
+        tx.executeSql('SELECT * FROM sincronizacion', [], mostrardatos);
+    });    
+    }
     
 }
