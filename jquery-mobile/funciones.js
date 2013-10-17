@@ -720,28 +720,25 @@ if (len!=0){
                              beforeSend: function () {},
                              success: function(data) {
                                 if (data=='1'){
-                                  for(var i=0;i<len;i++){
+                                    var i = 0;
+                                    var temp10 = setInterval(function () {if(i == len){clearInterval(temp10);
                                     abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
                                     idmet=results.rows.item(i).id;
-                                    var nombre = results.rows.item(i).nombre;                                    
+                                    var nombre = results.rows.item(i).nombre; };showConfirm(nombre);  
+                                  //for(var i=0;i<len;i++){
+                                                                       
                                   // window.setTimeout(showConfirm(nombre),5000);
-                                  var r=confirm("Press a button");
-if (r==true)
-  {
-  x="You pressed OK!";
-  }
-else
-  {
-  x="You pressed Cancel!";
-  }
+                                  
+                                  i++;}, 5000);
+
                                   }
                                   }
-                                }                          
-                              });   
+                                });                          
+                              };   
 }    
-}
+
 function showConfirm(nombre) { 
-                                    navigator.notification.alert(
+                                    navigator.notification.confirm(
                                     'Guardaste el dinero para '+nombre+'?',
                                     onConfirm, 
                                     'Meta compida?', 
