@@ -742,7 +742,7 @@ function showConfirm(nombre) {
 
 function onConfirm(button){
 if (button==1){
-    alert('se guardo'+nombre+' id='+idmet);
+    alert('se guardo'+idmet);
 }else if (button==2){
     alert('no se guardo'+button);
 }
