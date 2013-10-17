@@ -733,14 +733,14 @@ if (len!=0){
 }    
 
 function showConfirm(nombre) { 
-                                    navigator.notification.alert(
+                                    navigator.notification.confirm(
                                     'Guardaste el dinero para '+nombre+'?',
-                                    (onConfirm(button){if (button==1){
+                                    (function(button){if (button==1){
     alert('se guardo'+nombre);
 }else if (button==2){
     alert('no se guardo');
 }
-}), 
+})(), 
                                     'Meta compida?', 
                                      'Si,No' );
                                     
