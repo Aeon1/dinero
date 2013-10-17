@@ -59,7 +59,7 @@
         <label id="fgs" style="display: none;"></label>
 	</div><!-- /header -->
 	<div data-role="content">
-    <input type="button" value="Continuar" id="continue" />	
+    <input type="button" value="Continuar" id="continue" onclick="$.mobile.navigate( '#page3',{transition : 'slide'} ); " />	
 	<label>concepto</label><input type="text" id="concepto" placeholder="Ejemplo: Renta" value="" />
     <label>pagos</label><input type="number" placeholder="$" id="pago" value="" />
     <input type="button" id="ingresar" value="Agregar" />

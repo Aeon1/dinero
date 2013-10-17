@@ -71,9 +71,9 @@ $(document).ready(function(){
     }
  });
  //pasar a la pagina principal
- $('#continue').click(function(){
-    $.mobile.navigate( "#page3",{transition : "slide"} ); 
- });
+// $('#continue').click(function(){
+//    $.mobile.navigate( "#page3",{transition : "slide"} ); 
+// });
  //evitar que los campos de gastos fijos no esten vacios
 $("#ingresar").click(function(){
     var v1=$('#concepto').val();
@@ -708,6 +708,7 @@ function antecorte() {
     var idmet;
 function corte(tx,results){
 var len = results.rows.length;
+console.log('metas '+len);
 var i=0;
 
 if (len!=0){
@@ -719,37 +720,42 @@ if (len!=0){
                              beforeSend: function () {},
                              success: function(data) {
                                 if (data=='1'){
-                                  while(i<len){
+                                  for(var i=0;i<len;i++){
                                     abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
                                     idmet=results.rows.item(i).id;
-                                    var nombre = results.rows.item(i).nombre;
-                                    showConfirm(nombre);
-                                    i++;                                    
-                                  }
-                                  }
-                                }                          
-                              });   
-}
-    
-}
-function showConfirm(nombre) { 
+                                    var nombre = results.rows.item(i).nombre;                                    
+                                    (function(){
                                     navigator.notification.alert(
                                     'Guardaste el dinero para '+nombre+'?',
                                     onConfirm, 
                                     'Meta compida?', 
                                      'Si,No' );
-                                    
+                                     })();  
+                              showConfirm(nombre);
+                                  }
+                                  }
+                                }                          
+                              });   
+}    
 }
+//function showConfirm(nombre) {     alert(nombre);
+//                                    navigator.notification.alert(
+//                                    'Guardaste el dinero para '+nombre+'?',
+//                                    onConfirm, 
+//                                    'Meta compida?', 
+//                                     'Si,No' );
+//                                    
+//}
 
 function onConfirm(button){
-    
-    var clave=$("#resultado").text();
-    if (button==1){
-    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-        db.transaction(function(tx) {
-        tx.executeSql('update metas set ahorro=? where id=?',[abono,idmet]);
-        consule.log('se guardo '+abono+' '+idmet);
-    }); continue;
-    } 
+alert('se guardo');
+   // var clave=$("#resultado").text();
+//    if (button==1){
+//    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+//        db.transaction(function(tx) {
+//        tx.executeSql('update metas set ahorro=? where id=?',[abono,idmet]);
+//        consule.log('se guardo '+abono+' '+idmet);
+//    });
+//    } 
 }
 
