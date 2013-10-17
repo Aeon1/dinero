@@ -709,8 +709,6 @@ function antecorte() {
 function corte(tx,results){
 var len = results.rows.length;
 console.log('metas '+len);
-var i=0;
-
 if (len!=0){
   var clave=$("#resultado").text();
     $.ajax({
@@ -721,7 +719,7 @@ if (len!=0){
                              success: function(data) {
                                 if (data=='1'){
                                     var i = 0;
-                                    var temp10 = setInterval(function () {if(i == len){clearInterval(temp10);
+                                    var temp10 = setInterval(function () {if(i<len){clearInterval(temp10);
                                     abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
                                     idmet=results.rows.item(i).id;};showConfirm(results.rows.item(i).nombre);  
                                     i++;}, 5000);
@@ -735,23 +733,19 @@ if (len!=0){
 function showConfirm(nombre) { 
                                     navigator.notification.confirm(
                                     'Guardaste el dinero para '+nombre+'?',
-                                    (function(){if (button==1){
-    alert('se guardo'+nombre);
-}else if (button==2){
-    alert('no se guardo');
-}
-}), 
+                                    onConfirm(nombre), 
                                     'Meta compida?', 
                                      'Si,No' );
                                     
 }
 
-//function onConfirm(button){
-//if (button==1){
-//    alert('se guardo');
-//}else if (button==2){
-//    alert('no se guardo');
-//}
+function onConfirm(button,nombre){
+if (button==1){
+    alert('se guardo'+nombre);
+}else if (button==2){
+    alert('no se guardo'+button);
+}
+}
    // var clave=$("#resultado").text();
 //    if (button==1){
 //    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
