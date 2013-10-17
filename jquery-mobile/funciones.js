@@ -723,13 +723,8 @@ if (len!=0){
                                     var i = 0;
                                     var temp10 = setInterval(function () {if(i == len){clearInterval(temp10);
                                     abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
-                                    idmet=results.rows.item(i).id;
-                                    var nombre = results.rows.item(i).nombre; };showConfirm(nombre);  
-                                  //for(var i=0;i<len;i++){
-                                                                       
-                                  // window.setTimeout(showConfirm(nombre),5000);
-                                  
-                                  i++;}, 5000);
+                                    idmet=results.rows.item(i).id;};showConfirm(results.rows.item(i).nombre);  
+                                    i++;}, 5000);
 
                                   }
                                   }
@@ -738,20 +733,25 @@ if (len!=0){
 }    
 
 function showConfirm(nombre) { 
-                                    navigator.notification.confirm(
+                                    navigator.notification.alert(
                                     'Guardaste el dinero para '+nombre+'?',
-                                    onConfirm, 
+                                    (onConfirm(button){if (button==1){
+    alert('se guardo'+nombre);
+}else if (button==2){
+    alert('no se guardo');
+}
+}), 
                                     'Meta compida?', 
                                      'Si,No' );
                                     
 }
 
-function onConfirm(button){
-if (button==1){
-    alert('no se guardo');
-}else if (button==2){
-    alert('se guardo');
-}
+//function onConfirm(button){
+//if (button==1){
+//    alert('se guardo');
+//}else if (button==2){
+//    alert('no se guardo');
+//}
    // var clave=$("#resultado").text();
 //    if (button==1){
 //    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
@@ -760,5 +760,5 @@ if (button==1){
 //        consule.log('se guardo '+abono+' '+idmet);
 //    });
 //    } 
-}
+//}
 
