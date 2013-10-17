@@ -725,7 +725,7 @@ if (len!=0){
                                     idmet=results.rows.item(i).id;
                                     var nombre = results.rows.item(i).nombre;                                    
                                     (function(){
-                                    navigator.notification.alert(
+                                    navigator.notification.confirm(
                                     'Guardaste el dinero para '+nombre+'?',
                                     onConfirm, 
                                     'Meta compida?', 
