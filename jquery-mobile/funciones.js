@@ -724,31 +724,37 @@ if (len!=0){
                                     abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
                                     idmet=results.rows.item(i).id;
                                     var nombre = results.rows.item(i).nombre;                                    
-                                    (function(){
-                                    navigator.notification.confirm(
-                                    'Guardaste el dinero para '+nombre+'?',
-                                    onConfirm, 
-                                    'Meta compida?', 
-                                     'Si,No' );
-                                     })();  
-                              showConfirm(nombre);
+                                  // window.setTimeout(showConfirm(nombre),5000);
+                                  var r=confirm("Press a button");
+if (r==true)
+  {
+  x="You pressed OK!";
+  }
+else
+  {
+  x="You pressed Cancel!";
+  }
                                   }
                                   }
                                 }                          
                               });   
 }    
 }
-//function showConfirm(nombre) {     alert(nombre);
-//                                    navigator.notification.alert(
-//                                    'Guardaste el dinero para '+nombre+'?',
-//                                    onConfirm, 
-//                                    'Meta compida?', 
-//                                     'Si,No' );
-//                                    
-//}
+function showConfirm(nombre) { 
+                                    navigator.notification.alert(
+                                    'Guardaste el dinero para '+nombre+'?',
+                                    onConfirm, 
+                                    'Meta compida?', 
+                                     'Si,No' );
+                                    
+}
 
 function onConfirm(button){
-alert('se guardo');
+if (button==1){
+    alert('no se guardo');
+}else if (button==2){
+    alert('se guardo');
+}
    // var clave=$("#resultado").text();
 //    if (button==1){
 //    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
