@@ -159,12 +159,12 @@ function checkConnection() {
     states[Connection.CELL_4G]  = '1';  //Conexión movil 4G';
     states[Connection.NONE]     = '0';  //Sin conexión';
       online=states[networkState];
-      if (online=='1'){check_sincronizacion();corte();}
+      if (online=='1'){check_sincronizacion();antecorte();}
     }
     function onOnline() {
    online='1'; 
    check_sincronizacion();
-  corte();
+ antecorte();
 }
 function onOffline() {
    online='0'; 
@@ -198,7 +198,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha,ahorro)');
     if (xtsjf=='0'){
         if (online=='1'){
                 $.ajax({
@@ -698,8 +698,20 @@ function ccbalance(){
                               }); 
     
 }
-function corte(){
-   var clave=$("#resultado").text();
+function antecorte() {
+        var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {
+        tx.executeSql('SELECT * FROM metas', [], corte);
+    });
+    }
+    var abono;
+    var idmet;
+function corte(tx,results){
+var len = results.rows.length;
+var i=0;
+
+if (len!=0){
+  var clave=$("#resultado").text();
     $.ajax({
                              type: 'POST',
                              url: 'http://2030.mx/dinero/corte.php',
@@ -707,27 +719,37 @@ function corte(){
                              beforeSend: function () {},
                              success: function(data) {
                                 if (data=='1'){
-                                    showConfirm();     
-     
-                                }
+                                  while(i<len){
+                                    abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
+                                    idmet=results.rows.item(i).id;
+                                    var nombre = results.rows.item(i).nombre;
+                                    showConfirm(nombre);
+                                    i++;                                    
+                                  }
+                                  }
                                 }                          
-                              });  
+                              });   
 }
-function showConfirm() {
-                                    navigator.notification.confirm(
-                                    'Guardaste el dinero para tu meta?',
-                                    onConfirm,  
+    
+}
+function showConfirm(nombre) { 
+                                    navigator.notification.alert(
+                                    'Guardaste el dinero para '+nombre+'?',
+                                    onConfirm, 
                                     'Meta compida?', 
                                      'Si,No' );
+                                    
 }
 
 function onConfirm(button){
+    
+    var clave=$("#resultado").text();
     if (button==1){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
-        tx.executeSql('SELECT * FROM sincronizacion', [], mostrardatos);
-    });    
-    }
-    
+        tx.executeSql('update metas set ahorro=? where id=?',[abono,idmet]);
+        consule.log('se guardo '+abono+' '+idmet);
+    }); continue;
+    } 
 }
 
