@@ -698,14 +698,15 @@ function ccbalance(){
                               }); 
     
 }
+var abono;
+    var idmet;
 function antecorte() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
         tx.executeSql('SELECT * FROM metas', [], corte);
     });
     }
-    var abono;
-    var idmet;
+    
 function corte(tx,results){
 var len = results.rows.length;
 console.log('metas '+len);
@@ -733,15 +734,15 @@ if (len!=0){
 function showConfirm(nombre) { 
                                     navigator.notification.confirm(
                                     'Guardaste el dinero para '+nombre+'?',
-                                    onConfirm(nombre), 
+                                    onConfirm, 
                                     'Meta compida?', 
                                      'Si,No' );
                                     
 }
 
-function onConfirm(button,nombre){
+function onConfirm(button){
 if (button==1){
-    alert('se guardo'+nombre);
+    alert('se guardo'+nombre+' id='+idmet);
 }else if (button==2){
     alert('no se guardo'+button);
 }
