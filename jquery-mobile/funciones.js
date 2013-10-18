@@ -710,6 +710,7 @@ function antecorte() {
 function corte(tx,results){
 var len = results.rows.length;
 console.log('metas '+len);
+var i=0;
 if (len!=0){
   var clave=$("#resultado").text();
     $.ajax({
@@ -720,7 +721,7 @@ if (len!=0){
                              success: function(data) {
                                 if (data=='1'){
                                     var i = 0;
-                                    var temp10 = setInterval(function () {if(i<len){clearInterval(temp10);
+                                    var temp10 = setInterval(function () {if(i>=len){clearInterval(temp10);
                                     abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
                                     idmet=results.rows.item(i).id;};showConfirm(results.rows.item(i).nombre);  
                                     i++;}, 5000);
@@ -742,7 +743,7 @@ function showConfirm(nombre) {
 
 function onConfirm(button){
 if (button==1){
-    alert('se guardo'+idmet);
+    alert('se guardo '+idmet);
 }else if (button==2){
     alert('no se guardo'+button);
 }
