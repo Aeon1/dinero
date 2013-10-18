@@ -723,7 +723,7 @@ if (len!=0){
                                     var i = 0;
                                     var temp10 = setInterval(function () {if(i>=len){clearInterval(temp10);
                                     abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
-                                    idmet=results.rows.item(i).id;};showConfirm(results.rows.item(i).nombre);  
+                                    };showConfirm(results.rows.item(i).nombre);idmet=results.rows.item(i).id;  
                                     i++;}, 5000);
 
                                   }
