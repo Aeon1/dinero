@@ -598,7 +598,7 @@ function savemeta(){
 var fecha = dd+" del "+mm+" de "+yyyy;
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {          
-tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha) values(?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha]);
+tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,ahorro) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha,'0']);
             $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
             $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
 
@@ -619,7 +619,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha) va
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');        
         for (var i=0; i<len; i++){ 
-           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha);
+           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha+'-'+results.rows.item(i).ahorro);
         } 
          cargarmeta();      
     }
@@ -642,7 +642,8 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha) va
        $('#slider-2').val(dato[7]);
        $('#slider-2').attr('max',dato[2]);
        $('#mosmet').html('Ahorrado');
-       
+       $('#deletemeta').attr('onclick','deletemeta('+dato[0]+')');
+       $('#slider-2').slider( "refresh" )
     }
     
     //mandar datos al servidor
@@ -721,9 +722,8 @@ if (len!=0){
                              success: function(data) {
                                 if (data=='1'){
                                     var i = 0;
-                                    var temp10 = setInterval(function () {if(i>=len){clearInterval(temp10);
-                                    abono=results.rows.item(i).precio/results.rows.item(i).periodo1;
-                                    };showConfirm(results.rows.item(i).nombre);idmet=results.rows.item(i).id;  
+                                    var temp10 = setInterval(function () {if(i>=len){clearInterval(temp10);                                    
+                                    };showConfirm(results.rows.item(i).nombre);idmet=results.rows.item(i).id;abono=results.rows.item(i).precio/results.rows.item(i).periodo1;  
                                     i++;}, 5000);
 
                                   }
@@ -743,9 +743,10 @@ function showConfirm(nombre) {
 
 function onConfirm(button){
 if (button==1){
-    alert('se guardo '+idmet);
-}else if (button==2){
-    alert('no se guardo'+button);
+    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {
+        tx.executeSql('update metas set ahorro=? where id=?',[abono,idmet]);
+    });
 }
 }
    // var clave=$("#resultado").text();
@@ -758,3 +759,11 @@ if (button==1){
 //    } 
 //}
 
+function deletemeta(idmeta){
+    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {
+        tx.executeSql('delete from metas where id=? ',[idmeta]);
+        console.log('se elimino el registro '+ idmeta);
+        loadmeta();
+    });
+}
