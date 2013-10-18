@@ -189,11 +189,11 @@ var clave=msje1+msje2+msje3+msje4+msje5+msje6;
 //optener fecha de registro
 var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if (h<10){h='0'+h} if (m<10){m='0'+m} if (s<10){s='0'+s}
 var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
-   tx.executeSql('DROP TABLE IF EXISTS clave');
-    tx.executeSql('DROP TABLE IF EXISTS sueldo');
-    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
-    tx.executeSql('DROP TABLE IF EXISTS gasto');
-     tx.executeSql('DROP TABLE IF EXISTS metas');
+//   tx.executeSql('DROP TABLE IF EXISTS clave');
+//    tx.executeSql('DROP TABLE IF EXISTS sueldo');
+//    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
+//    tx.executeSql('DROP TABLE IF EXISTS gasto');
+//     tx.executeSql('DROP TABLE IF EXISTS metas');
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
