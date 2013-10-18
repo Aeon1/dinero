@@ -193,7 +193,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
 //    tx.executeSql('DROP TABLE IF EXISTS sueldo');
 //    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
 //    tx.executeSql('DROP TABLE IF EXISTS gasto');
-//     tx.executeSql('DROP TABLE IF EXISTS metas');
+     tx.executeSql('DROP TABLE IF EXISTS metas');
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
@@ -749,15 +749,7 @@ if (button==1){
     });
 }
 }
-   // var clave=$("#resultado").text();
-//    if (button==1){
-//    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-//        db.transaction(function(tx) {
-//        tx.executeSql('update metas set ahorro=? where id=?',[abono,idmet]);
-//        consule.log('se guardo '+abono+' '+idmet);
-//    });
-//    } 
-//}
+
 
 function deletemeta(idmeta){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
