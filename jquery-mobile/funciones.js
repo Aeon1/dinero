@@ -198,7 +198,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha,ahorro)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen TEXT,fecha,ahorro)');
     if (xtsjf=='0'){
         if (online=='1'){
                 $.ajax({
@@ -619,23 +619,25 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,aho
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');        
         for (var i=0; i<len; i++){ 
-           valmetas.push(results.rows.item(i).id+'-'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'-'+results.rows.item(i).periodo+'-'+results.rows.item(i).periodo1+'-'+results.rows.item(i).imagen+'-'+results.rows.item(i).fecha+'-'+results.rows.item(i).ahorro);
+           valmetas.push(results.rows.item(i).id+'|'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'|'+results.rows.item(i).periodo+'|'+results.rows.item(i).periodo1+'|'+results.rows.item(i).imagen+'|'+results.rows.item(i).fecha+'|'+results.rows.item(i).ahorro);
         } 
          cargarmeta();      
     }
     
     function cargarmeta(signo){ 
            if (!signo){signo=0}            
-        if (m>=0 || m<=valmetas.length){ m+=signo;}
-        
+        if (m>=0 || m<=valmetas.length){ m+=signo;}        
         var nm=1+m;
         if (m==0){$('#lasts').attr('disabled','true');}else{$('#lasts').removeAttr('disabled');}
         if (m==(valmetas.length-1)){$('#nexts').attr('disabled','true');}else{$('#nexts').removeAttr('disabled');}
         $('#nmeta').html(nm);
         
-       var dato=valmetas[m].split('-');       
+       var dato=valmetas[m].split('|');       
        $('#metasxx h2').html(dato[1]);
-       if (dato[5]!=0){$('#imgop1').attr('src',dato[5]);}
+       $('#contenedorimg').append('dfgsdfg');
+       
+ if (dato[5]!=0){
+     $('#imgop1').attr('src',dato[5]);}
        $('#fecmeta').html("Agregado: "+dato[6]);
        $('#premeta').html("Precio: $"+dato[2]);
        $('#editmeta').attr('editar',dato[0]);
