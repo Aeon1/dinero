@@ -570,6 +570,7 @@ var clave=$("#resultado").text();
       // Muestra la foto capturada
       // Se usan reglas CSS para dimensionar la imagen
       largeImage.src = imageURI;
+      $('#meturlimg').val(imageURI);
     }
     // Un botón llamara a esta función
     function getPhoto(source) {
@@ -711,7 +712,6 @@ function antecorte() {
 function corte(tx,results){
 var len = results.rows.length;
 console.log('metas '+len);
-var i=0;
 if (len!=0){
   var clave=$("#resultado").text();
     $.ajax({
@@ -722,8 +722,8 @@ if (len!=0){
                              success: function(data) {
                                 if (data=='1'){
                                     var i = 0;
-                                    var temp10 = setInterval(function () {if(i>=len){clearInterval(temp10);                                    
-                                    };showConfirm(results.rows.item(i).nombre);idmet=results.rows.item(i).id;abono=results.rows.item(i).precio/results.rows.item(i).periodo1;  
+                                    var temp10 = setInterval(function () {if(i==len){clearInterval(temp10);                                    
+                                    };showConfirm(results.rows.item(i).nombre);idmet=results.rows.item(i).id;
                                     i++;}, 5000);
 
                                   }
@@ -745,7 +745,7 @@ function onConfirm(button){
 if (button==1){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
-        tx.executeSql('update metas set ahorro=? where id=?',[abono,idmet]);
+        tx.executeSql('update metas set ahorro=? where id=?',['500',idmet]);
     });
 }
 }
