@@ -619,7 +619,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,aho
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');        
         for (var i=0; i<len; i++){ 
-           valmetas.push(results.rows.item(i).id+'|'+results.rows.item(i).nombre+'-'+results.rows.item(i).precio+'|'+results.rows.item(i).periodo+'|'+results.rows.item(i).periodo1+'|'+results.rows.item(i).imagen+'|'+results.rows.item(i).fecha+'|'+results.rows.item(i).ahorro);
+           valmetas.push(results.rows.item(i).id+'|'+results.rows.item(i).nombre+'|'+results.rows.item(i).precio+'|'+results.rows.item(i).periodo+'|'+results.rows.item(i).periodo1+'|'+results.rows.item(i).imagen+'|'+results.rows.item(i).fecha+'|'+results.rows.item(i).ahorro);
         } 
          cargarmeta();      
     }
