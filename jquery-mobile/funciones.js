@@ -124,12 +124,15 @@ function checar_c5(){
         db.transaction(
         function(tx) {
         tx.executeSql('SELECT * FROM clave', [],checar_c6);
+       
     });
 }
 function checar_c6(tx,results){
     var len = results.rows.length;
+    for (var i=0; i<len; i++){
+            $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"<br/>";          
+        }
     xtsjf=len;
-    console.log('clave encontrada(s) '+len)
 }
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
  var pictureSource;   // Origen de la imagen
@@ -231,7 +234,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha]);//se inserta la clave generada para enviarla al servidor
       console.log('datos guardados en telefono'+clave);;
     }
-    } else{successCB();console.log('clave encontrada '+xtsjf);}  
+    } else{successCB();}  
 
     }
  function clave_error(err) {
@@ -609,6 +612,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,aho
     //cargar meta
     var m=0; 
      function loadmeta() {
+        
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
         tx.executeSql('SELECT * FROM metas', [], loadmeta1);
@@ -634,8 +638,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,aho
         $('#nmeta').html(nm);
         
        var dato=valmetas[m].split('|');       
-       $('#metasxx h2').html(dato[1]);
-       $('#contenedorimg').append('dfgsdfg');       
+       $('#metasxx h2').html(dato[1]);      
         if (dato[5]!=0){$('#imgop1').attr('src',dato[5]);}
        $('#fecmeta').html("Agregado: "+dato[6]);
        $('#premeta').html("Precio: $"+dato[2]);
@@ -646,7 +649,6 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,aho
        $('#deletemeta').attr('onclick','deletemeta('+dato[0]+')');
        $('#slider-2').slider( "refresh" )
     }
-    
     //mandar datos al servidor
     
 function check_sincronizacion() {
@@ -722,7 +724,7 @@ if (len!=0){
                              success: function(data) {
                                 if (data=='1'){
                                     var i = 0;
-                                    var temp10 = setInterval(function () {if(i==len){clearInterval(temp10);                                    
+                                    var temp10 = setInterval(function () {if(i==len){clearInterval(temp10);                                   
                                     };showConfirm(results.rows.item(i).nombre);idmet=results.rows.item(i).id;
                                     i++;}, 5000);
 
@@ -733,7 +735,7 @@ if (len!=0){
 }    
 
 function showConfirm(nombre) { 
-                                    navigator.notification.confirm(
+                                    navigator.notification.alert(
                                     'Guardaste el dinero para '+nombre+'?',
                                     onConfirm, 
                                     'Meta compida?', 
@@ -757,5 +759,11 @@ function deletemeta(idmeta){
         tx.executeSql('delete from metas where id=? ',[idmeta]);
         console.log('se elimino el registro '+ idmeta);
         loadmeta();
+        $('#metasxx h2,#fecmeta,#premeta,#mosmet').html('');
+        $('#imgop1').removeAttr('src');
+     $('#slider-2').val('0');
+     $('#slider-2').attr('max','0');
+     $('#deletemeta').removeAttr('onclick');
     });
+    
 }
