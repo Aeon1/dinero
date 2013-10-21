@@ -1,4 +1,5 @@
-$(document).ready(function(){    
+$(document).ready(function(){ 
+     FastClick.attach(document.body);
     //inicio sueldo
  $("input[name='radio']").click(function(){
    var sueldo= $("input[name='radio']:checked").val();
@@ -143,7 +144,6 @@ function checar_c6(tx,results){
         db.transaction(claveDB,successCB,clave_error); 
     document.addEventListener("online", onOnline, false);
         document.addEventListener("offline", onOffline, false);
- FastClick.attach(document.body);
  checkConnection();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
