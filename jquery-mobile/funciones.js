@@ -130,7 +130,6 @@ function checar_c5(){
 }
 function checar_c6(tx,results){
     var len = results.rows.length;
-    if (len==0){$.mobile.navigate("#page1");}
     for (var i=0; i<len; i++){
             $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"<br/>";          
         }
@@ -148,7 +147,7 @@ function checar_c6(tx,results){
  checkConnection();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
-
+    $.mobile.navigate("#page1");
          
       }
      var online;    
