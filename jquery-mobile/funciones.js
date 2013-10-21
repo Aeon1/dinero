@@ -125,7 +125,6 @@ function checar_c5(){
         db.transaction(
         function(tx) {
         tx.executeSql('SELECT * FROM clave', [],checar_c6);
-       $.mobile.navigate("#page1");
     });
 }
 function checar_c6(tx,results){
@@ -133,6 +132,7 @@ function checar_c6(tx,results){
     for (var i=0; i<len; i++){
             $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"<br/>";          
         }
+        $.mobile.navigate("#page1");
     xtsjf=len;
 }
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
