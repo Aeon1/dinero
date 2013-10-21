@@ -131,8 +131,7 @@ function checar_c6(tx,results){
     var len = results.rows.length;
     for (var i=0; i<len; i++){
             $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"<br/>";          
-        }
-        $.mobile.navigate("#page1");
+        } 
     xtsjf=len;
 }
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
@@ -771,3 +770,24 @@ function deletemeta(idmeta){
     
 }
 
+
+// handle GCM notifications for Android
+ function onNotificationGCM(e) {
+     switch( e.event )
+     {
+         case 'registered':
+         if ( e.regid.length > 0 )
+         {
+             // Your GCM push server needs to know the regID before it can push to this device
+             // here is where you might want to send it the regID for later use.
+             PushWoosh.appCode = "A36E4-ADA6B";
+             PushWoosh.register(e.regid, function(data) {
+                         alert("PushWoosh register success: " + JSON.stringify(data));
+                     }, function(errorregistration) {
+                         alert("Couldn't register with PushWoosh" +  errorregistration);
+                     });
+              
+         }
+         break;
+         }
+         }
