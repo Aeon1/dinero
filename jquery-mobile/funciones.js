@@ -125,7 +125,7 @@ function checar_c5(){
         db.transaction(
         function(tx) {
         tx.executeSql('SELECT * FROM clave', [],checar_c6);
-       
+       $.mobile.navigate("#page1");
     });
 }
 function checar_c6(tx,results){
@@ -147,7 +147,6 @@ function checar_c6(tx,results){
  checkConnection();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
-    $.mobile.navigate("#page1");
          
       }
      var online;    
