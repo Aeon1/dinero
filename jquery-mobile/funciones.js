@@ -1,6 +1,6 @@
 $(document).ready(function(){ 
      FastClick.attach(document.body);
-     $('#ini').delay(5000).css('display','block');
+     $('#ini').delay(5000).removeAttribute('disabled');
     //inicio sueldo
  $("input[name='radio']").click(function(){
    var sueldo= $("input[name='radio']:checked").val();
@@ -115,7 +115,6 @@ var xtsjf;
  }
   function checar_c2(tx, results) {
         var len = results.rows.length;
-        alert(len);
         console.log(len+" sueldo encontrados");
         if (len!=0){$.mobile.navigate("#page3");}
         if(len==0){$.mobile.navigate("#page1"); }  
