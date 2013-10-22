@@ -117,7 +117,7 @@ var xtsjf;
         console.log(len+" sueldo encontrados");
         if (len!=0){            
           $.mobile.navigate("#page3");        
-        }else{$.mobile.navigate("#page1"); }    
+        }else if(len==0){$.mobile.navigate("#page1"); }    
         }
 
 function checar_c5(){
@@ -202,7 +202,6 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha,ahorro)');
     if (xtsjf=='0'){
         if (online=='1'){
-            $.mobile.navigate("#page1");
                 $.ajax({
                              type: 'POST',
                              url: 'http://2030.mx/dinero/consultas.php',
