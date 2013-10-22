@@ -133,22 +133,23 @@ function checar_c6(tx,results){
     console.log('ya hay una clave '+len);
     for (var i=0; i<len; i++){
             $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"<br/>";          
-        } 
+        }
+        checar_c1(); 
     xtsjf=len;
 }
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
  var pictureSource;   // Origen de la imagen
     var destinationType; // Formato del valor retornado
  function onDeviceReady() { 
-    checar_c5();checar_c1(); 
-     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-        db.transaction(claveDB,successCB,clave_error); 
-    document.addEventListener("online", onOnline, false);
-        document.addEventListener("offline", onOffline, false);
- checkConnection();
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-         
+    checar_c5(); 
+    // var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+//        db.transaction(claveDB,successCB,clave_error); 
+//    document.addEventListener("online", onOnline, false);
+//        document.addEventListener("offline", onOffline, false);
+// checkConnection();
+//        pictureSource=navigator.camera.PictureSourceType;
+//        destinationType=navigator.camera.DestinationType;
+//         
       }
      var online;    
 function checkConnection() {
