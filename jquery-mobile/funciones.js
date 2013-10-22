@@ -115,7 +115,7 @@ var xtsjf;
   function checar_c2(tx, results) {
         var len = results.rows.length;
         console.log(len+" sueldo encontrados");
-        if (len!=0){         
+        if (len!=0){            
           $.mobile.navigate("#page3");        
         }else{$.mobile.navigate("#page1"); }    
         }
@@ -129,6 +129,7 @@ function checar_c5(){
 }
 function checar_c6(tx,results){
     var len = results.rows.length;
+    console.log('ya hay una clave '+len);
     for (var i=0; i<len; i++){
             $('#resultado,#fgs,#cfs').html( results.rows.item(i).clave)+"<br/>";          
         } 
@@ -169,7 +170,6 @@ function checkConnection() {
 }
 function onOffline() {
    online='0'; 
-  // $('h1').html(' offline');
     }
  function claveDB(tx) {
     var claves;
@@ -190,11 +190,11 @@ var clave=msje1+msje2+msje3+msje4+msje5+msje6;
 //optener fecha de registro
 var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if (h<10){h='0'+h} if (m<10){m='0'+m} if (s<10){s='0'+s}
 var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
-//   tx.executeSql('DROP TABLE IF EXISTS clave');
-//    tx.executeSql('DROP TABLE IF EXISTS sueldo');
-//    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
-//    tx.executeSql('DROP TABLE IF EXISTS gasto');
-//     tx.executeSql('DROP TABLE IF EXISTS metas');
+   tx.executeSql('DROP TABLE IF EXISTS clave');
+    tx.executeSql('DROP TABLE IF EXISTS sueldo');
+    tx.executeSql('DROP TABLE IF EXISTS sincronizacion');
+    tx.executeSql('DROP TABLE IF EXISTS gasto');
+     tx.executeSql('DROP TABLE IF EXISTS metas');
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
@@ -229,16 +229,16 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
                               });
             }else{
     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
-   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha]);//se inserta la clave generada para enviarla al servidor
+   tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha],successCB);//se inserta la clave generada para enviarla al servidor
       console.log('datos guardados en telefono'+clave);
-      $('#resultado,#fgs,#cfs').html(clave);
+      $('#resultado,#fgs,#cfs').html(clave);successCB();
     
     }
     } else{successCB();}  
 
     }
  function clave_error(err) {
-      // console.log("se a producido un error "+err.code);
+       console.log("se a producido un error");
     } 
  function successCB() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
@@ -770,24 +770,3 @@ function deletemeta(idmeta){
     
 }
 
-
-// handle GCM notifications for Android
- function onNotificationGCM(e) {
-     switch( e.event )
-     {
-         case 'registered':
-         if ( e.regid.length > 0 )
-         {
-             // Your GCM push server needs to know the regID before it can push to this device
-             // here is where you might want to send it the regID for later use.
-             PushWoosh.appCode = "A36E4-ADA6B";
-             PushWoosh.register(e.regid, function(data) {
-                         alert("PushWoosh register success: " + JSON.stringify(data));
-                     }, function(errorregistration) {
-                         alert("Couldn't register with PushWoosh" +  errorregistration);
-                     });
-              
-         }
-         break;
-         }
-         }
