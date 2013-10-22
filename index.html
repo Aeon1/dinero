@@ -11,21 +11,11 @@
     <script src="jquery-mobile/fastclick.js"></script>
     <script type="text/javascript" charset="utf-8">    
     // Espera a que PhoneGap se inicie
-    document.addEventListener("deviceready", checar_c1, false);
+    document.addEventListener("deviceready", onDeviceReady, false);
     </script>
   </head>
   <body>
-  <div data-role="page" id="cargando">
-
-	<div data-role="header">
-		<h1></h1>
-	</div><!-- /header -->
-
-	<div data-role="content">	
-			<h1>Cargando datos...</h1>
-	</div><!-- /content -->
-
-</div><!-- /page -->
+ 
   <div data-role="page" id="page1">
 
 	<div data-role="header">
