@@ -1,5 +1,6 @@
 $(document).ready(function(){ 
      FastClick.attach(document.body);
+     $('#ini').delay(5000).css('display','block');
     //inicio sueldo
  $("input[name='radio']").click(function(){
    var sueldo= $("input[name='radio']:checked").val();
