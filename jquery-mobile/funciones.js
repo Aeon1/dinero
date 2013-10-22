@@ -115,9 +115,9 @@ var xtsjf;
   function checar_c2(tx, results) {
         var len = results.rows.length;
         console.log(len+" sueldo encontrados");
-        if (len!=0){            
-          $.mobile.navigate("#page3");        
-        }else if(len==0){$.mobile.navigate("#page1"); }    
+        if (len!=0){$.mobile.navigate("#page3");}
+        if(len==0){$.mobile.navigate("#page1"); }  
+          
         }
 
 function checar_c5(){
