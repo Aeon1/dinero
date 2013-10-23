@@ -12,18 +12,6 @@
     <script type="text/javascript" charset="utf-8">    
     // Espera a que PhoneGap se inicie
     document.addEventListener("deviceready", onDeviceReady, false);
-     function onDeviceReady() { 
-    checar_c1();
-    checar_c5(); 
-     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-        db.transaction(claveDB,successCB,clave_error); 
-    document.addEventListener("online", onOnline, false);
-        document.addEventListener("offline", onOffline, false);
-    checkConnection();
-        pictureSource=navigator.camera.PictureSourceType;
-        destinationType=navigator.camera.DestinationType;
-         
-      }
     </script>
   </head>
   <body>
@@ -35,7 +23,7 @@
 
 	<div data-role="content">	
 			<h1>Cargando datos...</h1>
-            <input type="button" id="ini" value="Continuar" onclick="onDeviceReady()" disabled=""/>
+            <input type="button" value="Continuar" id="ini" disabled="" onclick="onDeviceReady()"/>
 	</div><!-- /content -->
 
 </div><!-- /page -->

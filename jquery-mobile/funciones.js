@@ -1,6 +1,8 @@
+
 $(document).ready(function(){ 
      FastClick.attach(document.body);
-     $('#ini').delay(5000).removeAttr('disabled');
+     setTimeout("$('#ini').button('enable')",5000);
+  
     //inicio sueldo
  $("input[name='radio']").click(function(){
    var sueldo= $("input[name='radio']:checked").val();
@@ -105,6 +107,19 @@ $('#fondo img').click(function(){
     })  
 }); 
 //abrir la bd y comprobar si existe y generar y guardar la clave
+function onDeviceReady() { 
+    checar_c1();
+    checar_c5(); 
+     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(claveDB,successCB,clave_error); 
+    document.addEventListener("online", onOnline, false);
+        document.addEventListener("offline", onOffline, false);
+    checkConnection();
+        pictureSource=navigator.camera.PictureSourceType;
+        destinationType=navigator.camera.DestinationType;
+         
+      }
+      
 var xtsjf;
  function checar_c1(){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
@@ -117,7 +132,7 @@ var xtsjf;
         var len = results.rows.length;
         console.log(len+" sueldo encontrados");
         if (len!=0){$.mobile.navigate("#page3");}
-        if(len==0){$.mobile.navigate("#page1"); }  
+        else{$.mobile.navigate("#page1"); }  
           
         }
 
