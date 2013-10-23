@@ -238,11 +238,9 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c1',clave,'0','0','0','0','0',fecha],successCB);//se inserta la clave generada para enviarla al servidor
       console.log('datos guardados en telefono'+clave);
-      //$('#resultado,#fgs,#cfs').html(clave);
-      successCB();
     
     }
-    } else{successCB();}  
+    }   
 
     }
  function clave_error(err) {
