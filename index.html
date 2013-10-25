@@ -134,7 +134,7 @@
     <div data-role="navbar" >
     <ul>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
-        <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
         <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
     </div>
@@ -163,7 +163,7 @@
     <div data-role="navbar" >
     <ul>
         <li><a href="#page3" id="" data-icon="home" >Principal</a></li>
-        <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
         <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
     </ul>
     </div>   
@@ -176,21 +176,24 @@
 	</div><!-- /header -->
 	<div data-role="content" id="metasxx">
     <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;">
-        <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>        
-        <button data-icon="arrow-r" data-iconpos="right" id="nexts" onclick="cargarmeta(+1);">Siguiente</button>
+        <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>      
+        <button data-icon="arrow-r" data-iconpos="right" id="nexts" onclick="cargarmeta(+1);">Siguiente</button>        
     </fieldset>
+    <h4 id='congrat' style="text-align: center;color: #00FF00;"></h4>
     <h2 style="text-align: center;"></h2>
     <div class="contenedorimg"><img class="imagenmeta" id="imgop1"/></div>
     <p style="text-align: center;" id="fecmeta"></p>
-    <h3 id="premeta"></h3>
+    <h3 id="premeta" style="margin: 0;"></h3>
 <div data-role="fieldcontain" id="slide">
   <label for="slider-2" id="mosmet"></label>
   <input type="range" name="slider-2" id="slider-2" value="0" min="0" max="" data-mini="true" data-highlight="true"/>
 </div>
-    <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;">
+    <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;" data-mini="true">
         <button data-icon="edit" data-iconpos="left" id="deletemeta" onclick="deletemeta()">Eliminar</button>
+        <button id="actmetas" >Actualizar</button>
         <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );">Agregar</button>
-    </fieldset>    	
+    </fieldset>  
+      	
 	</div><!-- /content -->
     <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
     <div data-role="navbar" >
@@ -211,6 +214,7 @@
 </div><!-- /page -->
 <div data-role="page" id="metas_insert">
 	<div data-role="header">
+    <a href="#" data-role="button" data-icon="forward" data-rel="back" data-iconpos="notext" data-theme="c" data-inline="true">Back</a>
 		<h1>Metas</h1>
 	</div><!-- /header -->
     
@@ -220,7 +224,8 @@
     <input type="text" id="metnombre" placeholder="Titulo de la meta" />
     Cual es el precio?
     <input type="number" id="metprecio" placeholder="precio $"/>
-    <fieldset data-role="controlgroup" data-type="horizontal">
+    <!--
+<fieldset data-role="controlgroup" data-type="horizontal">
         <legend>En cuanto tiempo?</legend>
         <input type="radio" name="radio2" id="radio-choice-h-2a2" value="dias" checked="checked">
         <label for="radio-choice-h-2a2">Dias</label>
@@ -229,9 +234,10 @@
         <input type="radio" name="radio2" id="radio-choice-h-2c2" value="meses">
         <label for="radio-choice-h-2c2">Meses</label>
     </fieldset>
-    <label>En cuanto tiempo?</label>
-    <input type="number" id="metperiodo" placeholder="Dias, Semanas, Meses" />
-    <input type="hidden" id="metperiododias" value="dias"/>
+-->
+    <label>En cuanto tiempo (meses)?</label>
+    <input type="number" id="metperiodo" placeholder="Meses" />
+    <!--<input type="hidden" id="metperiododias" value="dias"/>-->
     <div class="contenedorimg"><img class="imagenmeta" id="imgop" style="display: none;"/> </div>       
     <input type="button" value="Seleccionar imagen" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" />
     <input type="hidden" id="meturlimg" value="" />
@@ -271,7 +277,7 @@
     <div data-role="navbar" >
     <ul>
         <li><a href="#configuracion2" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
-        <li><a href="#metas" id="" data-icon="forward">Metas</a></li>
+        <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
     </ul>
     </div> 
@@ -284,14 +290,19 @@
 </div>
 </div><!-- /page -->
 
-<div data-role="page" id="">
+<div data-role="page" id="metas_saldo">
 
 	<div data-role="header">
-		<h1>configuracion</h1>
+    <a href="#metas" data-role="button" onclick="loadmeta()" data-icon="home"  data-iconpos="notext" data-theme="c" data-inline="true">Back</a>
+		<h1>Metas</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">	
-			
+			<div data-role="collapsible-set" id="accmetas">
+ 
+ 
+</div>
+
 	</div><!-- /content -->
 
 </div><!-- /page -->

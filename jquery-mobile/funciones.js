@@ -117,9 +117,9 @@ function onDeviceReady() {
     checkConnection();
         pictureSource=navigator.camera.PictureSourceType;
         destinationType=navigator.camera.DestinationType;
-         
+         document.addEventListener("backbutton", onBackKeyDown, false);
       }
-      
+    function onBackKeyDown() {}  
 var xtsjf;
  function checar_c1(){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
@@ -193,7 +193,7 @@ var msje5;
 msje5=claves[Math.floor(Math.random() * claves.length)];
 var msje6;
 msje6=claves[Math.floor(Math.random() * claves.length)];
-var clave=msje1+msje2+msje3+msje4+msje5+msje6;
+var clave=msje1+msje2+msje3+msje4+msje5+msje6;                                                                          
 //optener fecha de registro
 var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if (h<10){h='0'+h} if (m<10){m='0'+m} if (s<10){s='0'+s}
 var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
@@ -206,7 +206,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS sincronizacion(id INTEGER PRIMARY KEY AUTOINCREMENT, id1, clave, fiva, sueldo, concepto, categoria, valor, fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,periodo1,imagen,fecha,ahorro)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,imagen,fecha,ahorro)');
     if (xtsjf=='0'){
         if (online=='1'){
                 $.ajax({
@@ -600,17 +600,17 @@ function savemeta(){
     var nommeta=$('#metnombre').val();
     var precio=$('#metprecio').val();    
     var periodo=$('#metperiodo').val();
-    var periodo1=$('#metperiododias').val();
+   // var periodo1=$('#metperiododias').val();
     var urlimagen=$('#meturlimg').val()
     if (nommeta==''){$('#metnombre').attr('placeholder','Ingrese su meta').focus();alert('vacio');return false; }
     else if (precio==''){$('#metprecio').attr('placeholder','Ingrese el precio').focus();return false; }
     else if (periodo==''){$('#metperiodo').attr('placeholder','Ingrese el periodo').focus();return false; }
-    else if (urlimagen==''){urlimagen='0'}  
+    else if (urlimagen==''){urlimagen='jquery-mobile/images/metas.jpg'}  
       var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
 var fecha = dd+" del "+mm+" de "+yyyy;
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {          
-tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,ahorro) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,periodo1,urlimagen,fecha,'0']);
+tx.executeSql('insert into metas(nombre,precio,periodo,imagen,fecha,ahorro) values(?,?,?,?,?,?)',[nommeta,precio,periodo,urlimagen,fecha,'0']);
             $("#metnombre,#metprecio,#metperiodo,#meturlimg").val('');
             $('#respmeta').html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
 
@@ -632,12 +632,13 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,aho
         var len = results.rows.length;
         console.log('se encontraron '+len+' resgistros');        
         for (var i=0; i<len; i++){ 
-           valmetas.push(results.rows.item(i).id+'|'+results.rows.item(i).nombre+'|'+results.rows.item(i).precio+'|'+results.rows.item(i).periodo+'|'+results.rows.item(i).periodo1+'|'+results.rows.item(i).imagen+'|'+results.rows.item(i).fecha+'|'+results.rows.item(i).ahorro);
+           valmetas.push(results.rows.item(i).id+'|'+results.rows.item(i).nombre+'|'+results.rows.item(i).precio+'|'+results.rows.item(i).periodo+'|'+results.rows.item(i).imagen+'|'+results.rows.item(i).fecha+'|'+results.rows.item(i).ahorro);
         } 
          cargarmeta();      
     }
     
     function cargarmeta(signo){ 
+        $('#congrat').html('');
            if (!signo){signo=0}            
         if (m>=0 || m<=valmetas.length){ m+=signo;}        
         var nm=1+m;
@@ -647,15 +648,17 @@ tx.executeSql('insert into metas(nombre,precio,periodo,periodo1,imagen,fecha,aho
         
        var dato=valmetas[m].split('|');       
        $('#metasxx h2').html(dato[1]);      
-        if (dato[5]!=0){$('#imgop1').attr('src',dato[5]);}
-       $('#fecmeta').html("Agregado: "+dato[6]);
+        if (dato[5]!=0){$('#imgop1').attr('src',dato[4]);}
+       $('#fecmeta').html("Agregado: "+dato[5]);
        $('#premeta').html("Precio: $"+dato[2]);
        $('#editmeta').attr('editar',dato[0]);
-       $('#slider-2').val(dato[7]);
+       $('#slider-2').val(dato[6]);
        $('#slider-2').attr('max',dato[2]);
        $('#mosmet').html('Ahorrado');
        $('#deletemeta').attr('onclick','deletemeta('+dato[0]+')');
-       $('#slider-2').slider( "refresh" )
+       $('#slider-2').slider( "refresh" );
+       $('#actmetas').attr('onclick','cgmetas('+dato[0]+')');
+       if (dato[6]>dato[2]){$('#congrat').html('Felicidades Realizaste tu meta');}
     }
     //mandar datos al servidor
     
@@ -710,12 +713,12 @@ function ccbalance(){
                               }); 
     
 }
-var abono;
-    var idmet;
+
 function antecorte() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
         tx.executeSql('SELECT * FROM metas', [], corte);
+        console.log('antecorte');
     });
     }
     
@@ -723,7 +726,7 @@ function corte(tx,results){
 var len = results.rows.length;
 console.log('metas '+len);
 if (len!=0){
-  var clave=$("#resultado").text();
+  var clave=$('#resultado').text();
     $.ajax({
                              type: 'POST',
                              url: 'http://2030.mx/dinero/corte.php',
@@ -731,33 +734,31 @@ if (len!=0){
                              beforeSend: function () {},
                              success: function(data) {
                                 if (data=='1'){
-                                    var i = 0;
-                                    var temp10 = setInterval(function () {if(i==len){clearInterval(temp10);                                   
-                                    };showConfirm(results.rows.item(i).nombre);idmet=results.rows.item(i).id;
-                                    i++;}, 5000);
-
+                                    for(var i=0;i<len;i++){
+                                        $('#accmetas').append("<div data-role='collapsible'><h3>"+results.rows.item(i).nombre+"</h3><p><h4 id='rrs'>Llevas $<span id='ahho"+results.rows.item(i).id+"'>"+results.rows.item(i).ahorro+"</span> de $"+results.rows.item(i).precio+"</h4><label>Cuanto ahorraste para la meta?</label><input type='number' id='aho"+results.rows.item(i).id+"' value='"+results.rows.item(i).precio/results.rows.item(i).periodo+"'/><input class='save_aho' type='button' value='Guardar' onclick='lo_guardado("+results.rows.item(i).id+");'  /> </p><h5 style='text-align:center'></h5></div>");
+                                    if (results.rows.item(i).ahorro>results.rows.item(i).precio){$('#rrs').html('Felicidades Realizaste tu meta');$('.save_aho').attr("disabled",'true');$('#accmetas h3').css('color','#00FF00')}  
+                                    }
+                                    $.mobile.navigate( '#metas_saldo',{transition : 'slide'} );
+                                    showConfirm();
                                   }
                                   }
                                 });                          
                               };   
 }    
 
-function showConfirm(nombre) { 
-                                    navigator.notification.alert(
-                                    'Guardaste el dinero para '+nombre+'?',
+function showConfirm() { 
+                                    navigator.notification.confirm(
+                                    'Actualiza como vas con tus metas',
                                     onConfirm, 
                                     'Meta compida?', 
-                                     'Si,No' );
+                                     'Ok,Cancelar');
                                     
 }
-
-function onConfirm(button){
-if (button==1){
-    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-        db.transaction(function(tx) {
-        tx.executeSql('update metas set ahorro=? where id=?',['500',idmet]);
-    });
-}
+function onConfirm(boton){
+    if (boton==2){
+       $.mobile.navigate( '#metas',{transition : 'slide'} ); 
+    }
+    
 }
 
 
@@ -776,3 +777,36 @@ function deletemeta(idmeta){
     
 }
 
+function lo_guardado(id){
+    var vvm=$('#aho'+id).val();
+    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {
+           tx.executeSql("update metas set ahorro=ahorro+"+vvm+" where id='"+id+"'"); 
+           $('#accmetas h5').html('Guardado').fadeIn().delay(1500).fadeOut();
+           var aumento=$('#ahho'+id).text();
+           var total=parseInt(aumento)+parseInt(vvm); 
+            $('#ahho'+id).text(total);         
+        });
+}
+
+function cgmetas(id){      
+    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+        db.transaction(function(tx) {
+           tx.executeSql('SELECT * FROM metas where id='+id, [], showmet);            
+        });
+}
+function showmet(tx,results){
+    $('#accmetas').html('');
+    var len = results.rows.length;
+    for(var i=0;i<len;i++){        
+    $('#accmetas').append("<div data-role='collapsible'><h3>"+results.rows.item(i).nombre+"</h3><p><h4 id='rrs'>Llevas $<span id='ahho"+results.rows.item(i).id+"'>"+results.rows.item(i).ahorro+"</span> de $"+results.rows.item(i).precio+"</h4><label>Cuanto ahorraste para la meta?</label><input type='number' id='aho"+results.rows.item(i).id+"' value='"+results.rows.item(i).precio/results.rows.item(i).periodo+"'/><input class='save_aho' type='button' value='Guardar' onclick='lo_guardado("+results.rows.item(i).id+");'  /> </p><h5 style='text-align:center'></h5></div>");
+    if (results.rows.item(i).ahorro>results.rows.item(i).precio){$('#rrs').html('Felicidades Realizaste tu meta');$('.save_aho').attr("disabled",'true');$('#accmetas h3').css('color','#00FF00')}
+    
+    $('#aho'+results.rows.item(i).id).textinput();
+    $('.save_aho').button();
+    }
+    $('div[data-role=collapsible]').collapsible({ corners: true });
+    $.mobile.navigate('#metas_saldo',{transition : 'slide'});
+   
+    
+}
