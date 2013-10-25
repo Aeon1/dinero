@@ -546,7 +546,7 @@ var clave=$("#resultado").text();
                                      var db = window.openDatabase("Database", "1.0", "claves test", 200000);
                                         db.transaction(
                                         function (tx){
-                                        $( "#mensaje" ).popup("open").fadeIn().delay(1000).fadeOut();
+                                        $("#mensaje").fadeIn().delay(1000).fadeOut();
                                         $('#me_gaste').val('');$('#me_gaste').focus();                                        
                                         console.log('Datos guardados en el servidor');   
                                         })                                 
@@ -555,7 +555,7 @@ var clave=$("#resultado").text();
                                         db.transaction(
                                         function (tx){
                                            tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c6',clave,'','','0',cat,pr,fecha]);//se inserta el sueldo para enviarlo al servidor
-                                          $( "#mensaje" ).popup("open").fadeIn().delay(1000).fadeOut();
+                                          $("#mensaje").fadeIn().delay(1000).fadeOut();
                                            $('#me_gaste').val('');$('#me_gaste').focus(); 
                                            
                                            console.log('El servidor regreso un error y se guardo en telefono');
@@ -567,7 +567,7 @@ var clave=$("#resultado").text();
    tx.executeSql('insert into sincronizacion(id1, clave, fiva, sueldo, concepto, categoria, valor, fecha) values(?,?,?,?,?,?,?,?)',['c6',clave,'','','0',cat,pr,fecha]);//se inserta el sueldo para enviarlo al servidor
     
     $('#me_gaste').val('');$('#me_gaste').focus();
-    $( "#mensaje" ).popup("open").fadeIn().delay(1000).fadeOut();
+    $("#mensaje").fadeIn().delay(1000).fadeOut();
     }
     });
     } 
