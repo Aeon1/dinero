@@ -658,7 +658,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,imagen,fecha,ahorro) valu
        $('#deletemeta').attr('onclick','deletemeta('+dato[0]+')');
        $('#slider-2').slider( "refresh" );
        $('#actmetas').attr('onclick','cgmetas('+dato[0]+')');
-       if (dato[6]>dato[2]){$('#congrat').html('Felicidades Realizaste tu meta');}
+       if (parseInt(dato[6])>parseInt(dato[2])){$('#congrat').html('Felicidades Realizaste tu meta');}
     }
     //mandar datos al servidor
     
