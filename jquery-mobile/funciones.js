@@ -51,12 +51,10 @@ $(document).ready(function(){
             alert('debe ingresar su sueldo');
             $('#sueldo').focus();
         }else{
-            save_sueldo();
-            //$.mobile.navigate( "#page2",{transition : "slide"} );         
+            save_sueldo();        
         }
     }else{
         save_sueldo();
-       //$.mobile.navigate( "#page2",{transition : "slide"} ); 
     }
  });
  //guardar modificacion de sueldo
@@ -74,10 +72,7 @@ $(document).ready(function(){
        change_sueldo();       
     }
  });
- //pasar a la pagina principal
-// $('#continue').click(function(){
-//    $.mobile.navigate( "#page3",{transition : "slide"} ); 
-// });
+
  //evitar que los campos de gastos fijos no esten vacios
 $("#ingresar").click(function(){
     var v1=$('#concepto').val();
@@ -419,8 +414,7 @@ function alguna(tx,results){
     var len = results.rows.length;
     $('table #gastos').html('');
         for (var i=0; i<len; i++){
-            $('table #gastos').prepend( "<tr><td>"+results.rows.item(i).concepto+"</td><td>"+results.rows.item(i).valor+"</td></tr>");
-             //SumarColumna('my-table', 1);           
+            $('table #gastos').prepend( "<tr><td>"+results.rows.item(i).concepto+"</td><td>"+results.rows.item(i).valor+"</td></tr>");          
         }
 }
 //guardar cambios o anexar nuevos gastos dijos o eliminar
@@ -522,7 +516,6 @@ function delete_gastos_f() {
    })
 });    
  }
-//SumarColumna('my-table', 1); 
 
 //ingresar los gastos a la tabla sincronizacion
 function save_gastos_d() {
@@ -807,6 +800,4 @@ function showmet(tx,results){
     }
     $('div[data-role=collapsible]').collapsible({ corners: true });
     $.mobile.navigate('#metas_saldo',{transition : 'slide'});
-   
-    
 }
