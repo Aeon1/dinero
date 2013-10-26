@@ -1,4 +1,3 @@
-
 $(document).ready(function(){ 
      FastClick.attach(document.body);
      setTimeout("$('#ini').button('enable')",5000);
@@ -155,13 +154,13 @@ function checar_c6(tx,results){
 function checkConnection() {
         var networkState = navigator.network.connection.type;
         var states = {};
-    states[Connection.UNKNOWN]  = '1';  //Conexión desconocida;
-    states[Connection.ETHERNET] = '1';  //Conexión ethernet;
-    states[Connection.WIFI]     = '1';  //Conexión WiFi';
-    states[Connection.CELL_2G]  = '1';  //Conexión movil 2G';
-    states[Connection.CELL_3G]  = '1';  //Conexión movil 3G';
-    states[Connection.CELL_4G]  = '1';  //Conexión movil 4G';
-    states[Connection.NONE]     = '0';  //Sin conexión';
+    states[Connection.UNKNOWN]  = '1';  //Conexiï¿½n desconocida;
+    states[Connection.ETHERNET] = '1';  //Conexiï¿½n ethernet;
+    states[Connection.WIFI]     = '1';  //Conexiï¿½n WiFi';
+    states[Connection.CELL_2G]  = '1';  //Conexiï¿½n movil 2G';
+    states[Connection.CELL_3G]  = '1';  //Conexiï¿½n movil 3G';
+    states[Connection.CELL_4G]  = '1';  //Conexiï¿½n movil 4G';
+    states[Connection.NONE]     = '0';  //Sin conexiï¿½n';
       online=states[networkState];
       if (online=='1'){check_sincronizacion();antecorte();}
     }
@@ -576,7 +575,7 @@ var clave=$("#resultado").text();
       largeImage.src = imageURI;
       $('#meturlimg').val(imageURI);
     }
-    // Un botón llamara a esta función
+    // Un botï¿½n llamara a esta funciï¿½n
     function getPhoto(source) {
       // Retorna la ruta del fichero de imagen desde el origen especificado
       navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
@@ -585,7 +584,7 @@ var clave=$("#resultado").text();
       }
     // Llamado cuando algo malo ocurre
     function onFail(message) {
-      alert('Ocurrió un error: ' + message);
+      alert('Ocurriï¿½ un error: ' + message);
     }
       
 function savemeta(){
@@ -740,18 +739,11 @@ if (len!=0){
 }    
 
 function showConfirm() { 
-                                    navigator.notification.confirm(
+                                    navigator.notification.alert(
                                     'Actualiza como vas con tus metas',
-                                    onConfirm, 
                                     'Meta compida?', 
-                                     'Ok,Cancelar');
+                                     'Ok');
                                     
-}
-function onConfirm(boton){
-    if (boton==2){
-       $.mobile.navigate( '#metas',{transition : 'slide'} ); 
-    }
-    
 }
 
 
