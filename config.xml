@@ -3,7 +3,7 @@
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.estudiopitaya.dinero"
 		versionCode=""
-		version   = "1.0.1">
+		version   = "2.0.1">
 		<name>Donde esta mi dinero?</name>
 		<description>
 App para llevar un control de los gastos y una mejor administracion del dinero.		</description>
