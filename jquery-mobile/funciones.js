@@ -2,7 +2,7 @@ $(document).ready(function(){
      FastClick.attach(document.body);
      setTimeout("$('#ini').button('enable')",5000);
   
-    //inicio sueldo
+    //inicio sueldo es
  $("input[name='radio']").click(function(){
    var sueldo= $("input[name='radio']:checked").val();
    if (sueldo=='fijo'){
