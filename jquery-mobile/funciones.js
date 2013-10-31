@@ -641,7 +641,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,imagen,fecha,ahorro) valu
        var dato=valmetas[m].split('|');       
        $('#metasxx h2').html(dato[1]);      
         if (dato[4]!=0){$('#imgop1').attr('src',dato[4]);}
-       $('#fecmeta').html("Agregado: "+dato[5]);
+       $('#fecmeta').html("Agregado: "+dato[4]);
        $('#premeta').html("Precio: $"+dato[2]);
        $('#editmeta').attr('editar',dato[0]);
        $('#slider-2').val(dato[6]);
