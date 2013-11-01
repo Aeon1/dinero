@@ -147,8 +147,7 @@ function checar_c6(tx,results){
     xtsjf=len;
 }
  //se checa si ya esta configurado, la funcion de repides, y se crea el id de usuario
- var pictureSource;   // Origen de la imagen
-    var destinationType; // Formato del valor retornado
+ 
 
      var online;    
 function checkConnection() {
@@ -563,9 +562,10 @@ var clave=$("#resultado").text();
     }
     });
     } 
- 
+ var nomimage;
   //funciones para obtener la imagen
   function onPhotoURISuccess(imageURI) {
+    createFileEntry(imageURI);
       // Obtiene el elemento HTML de la imagen
       var largeImage = document.getElementById('imgop');
       // Revela el elemento de la imagen
@@ -573,7 +573,8 @@ var clave=$("#resultado").text();
       // Muestra la foto capturada
       // Se usan reglas CSS para dimensionar la imagen
       largeImage.src = imageURI;
-      $('#meturlimg').val(imageURI);
+      //$('#meturlimg').val(imageURI);
+      nomimage=imageURI.substr(imageURI.lastIndexOf('/')+1);
     }
     // Un bot�n llamara a esta funci�n
     function getPhoto(source) {
@@ -586,6 +587,36 @@ var clave=$("#resultado").text();
     function onFail(message) {
       alert('Ocurrio un error: ' + message);
     }
+
+
+function createFileEntry(imageURI) {
+    window.resolveLocalFileSystemURI(imageURI, copyPhoto, fail);    
+}
+
+function copyPhoto(fileEntry) {
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSys) { 
+        fileSys.root.getDirectory("Metas", {create: true, exclusive: false}, function(dir) { 
+                fileEntry.copyTo(dir, nomimage, onCopySuccess, fail); 
+            }, fail); 
+    }, fail); 
+}
+
+function onCopySuccess(entry) {
+     $('#meturlimg').val(entry.fullPath);
+}
+
+function fail(error) {
+    console.log(error.code);
+}
+     
+     
+     
+     
+     
+     
+     
+     
+     
       
 function savemeta(){
      var clave=$("#resultado").text();
