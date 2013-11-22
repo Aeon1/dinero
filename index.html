@@ -5,64 +5,85 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <link rel="stylesheet" href="jquery-mobile/jquery.mobile-1.3.2.min.css" />
+    <link rel="stylesheet" href="jquery-mobile/jquery.ui.progressbar.min.css">
     <script src="jquery-mobile/jquery-1.9.1.min.js"></script>
-	<script src="jquery-mobile/jquery.mobile-1.3.2.min.js"></script>
+	<script src="jquery-mobile/jquery.mobile-1.3.2.min.js"></script>    
     <script src="jquery-mobile/funciones.js"></script>
     <script src="jquery-mobile/fastclick.js"></script>
+    <script src="jquery-mobile/jquery.ui.widget.min.js"></script>
+    <script src="jquery-mobile/jquery.ui.progressbar.min.js"></script>
     <script type="text/javascript" charset="utf-8">  
     var pictureSource;   // Origen de la imagen
     var destinationType; // Formato del valor retornado  
     // Espera a que PhoneGap se inicie
     document.addEventListener("deviceready", onDeviceReady, false);
+    $(function() {
+    $( "#progressbar" ).progressbar({value: 0 });
+    
+   $('#chart').attr('width',$('.ui-content').width())
+   $('#chart').attr('height',$('.ui-content').height()/3);
+    
+  });
     </script>
   </head>
   <body>
   <div data-role="page" id="cargando">
 
-	<div data-role="header">
-		<h1></h1>
-	</div><!-- /header -->
 
-	<div data-role="content">	
-			<h1>Cargando datos...</h1>
+	<div data-role="content" style="background: white;">	
+			<img src="jquery-mobile/images/img_1.png" style="width: 100%;"/>
+            <p style="text-align: center;"><b>Hacer el viaje de tu vida, comprarte un nuevo auto o empezar tu negocio no tiene porque ser un sueño.<br /><br />Vas a necesitar mucho compromiso para lograrlo pero nosotros te vamos ayudar. <br /><br />Como dice el gran Warren Buffeett:<br /><br /><em>“No ahorres lo que queda después de los gastos, gasta lo que queda después de ahorrar”.</em></b></p>
+            <img src="jquery-mobile/images/img_2.png" style="width: 100%;"/>
             <input type="button" value="Continuar" id="ini" disabled="" onclick="onDeviceReady()"/>
 	</div><!-- /content -->
 
 </div><!-- /page -->
-  <div data-role="page" id="page1">
+  <div data-role="page" id="cargando_metas" style="background: #00BBB3;">
 
-	<div data-role="header">
-		<h1>Configuraci&oacute;n</h1>
-	</div><!-- /header -->
+<div data-role="content" >
+<h3 style="text-align: center;background: #00817C;color: #FFFFFF;text-shadow: none;padding: 20px;">¡Empieza con una meta!</h3>
+            <form style="background: white;padding: 9px;">            
+    <label>Cual es tu meta?</label>
+    <input type="text" id="metnombre1" placeholder="Nombre de la meta" />
+    Cual es el precio?
+    <input type="number" id="metprecio1" placeholder="Precio $"/>
+    <label>En cuanto tiempo (meses)?</label>
+    <input type="number" id="metperiodo1" placeholder="Meses" />
+    <div class="contenedorimg1" style="min-height: 20px;"><img class="imagenmeta" id="imgop" style="display: none;"/><img src="jquery-mobile/images/img_3.png" style="position: absolute;top:300px;right: 0;z-index: 2;"/>  </div>       
+    <input type="button" value="Seleccionar imagen" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" data-theme='b' />
+    <input type="hidden" id="meturlimg1" value="" />
+    <input type="button" id="metsave" value="Guardar Meta" onclick="savemeta(1)" />
+    <p id="respmeta1" style="text-align: center;"></p>
+    </form>	
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+  <div data-role="page" id="page1" style="background: #00BBB3;">
+
 	<div data-role="content">
-   <form>
-   <p style="text-align: center;">ID: <span id="resultado"></span></p>
-    <fieldset data-role="controlgroup" data-type="horizontal">
-        <legend>&iquest;Tipo de ingreso?</legend>
-        <input type="radio" name="radio" id="radio-choice-h-2a" value="fijo" checked="checked">
-        <label for="radio-choice-h-2a">Fijo</label>
-        <input type="radio" name="radio" id="radio-choice-h-2b" value="variable">
-        <label for="radio-choice-h-2b">Variable</label>
-        <input type="hidden" id="fiva" value="0"/>
-    </fieldset>
+    <h3 style="text-align: center;background: #00817C;color: #FFFFFF;text-shadow: none;padding: 20px;"><em>Con información<br />real vas a poder tomar<br />mejores decisiones.</em></h3>
+ <form style="background: white;padding: 9px;">
+    <input type="hidden" id="fiva" value="0"/>   
     <div id="dpc">
-    <label>&iquest;Cuanto gano?</label>
+    <h3>Ingresos:</h3>
     <input type="number" name="sueldo" id="sueldo" value="" />
     </div>
-    <input type="button" value="enviar" id="save_sueldo"  />
+    <label>
+        <input type="checkbox" id="cke" name="checkbox-0 "/>No deseo especificar mis ingresos
+    </label>
+    <input type="button" value="Agregar" id="save_sueldo"  />
+    
     <p id="send" style="text-align: center;"></p>
-</form>			
+</form>	
 	</div><!-- /content -->
 </div><!-- /page -->
 
-<div data-role="page" id="page2">
-	<div data-role="header">
-		<h1>Gastos fijos</h1>
-        <label id="fgs" style="display: none;"></label>
-	</div><!-- /header -->
+<div data-role="page" id="page2" style="background: #00BBB3;">
 	<div data-role="content">
-    <input type="button" value="Continuar" id="continue" onclick="$.mobile.navigate( '#page3',{transition : 'slide'} ); " />	
-	<label>concepto</label><input type="text" id="concepto" placeholder="Ejemplo: Renta" value="" />
+    <h3 style="text-align: center;background: #00817C;color: #FFFFFF;text-shadow: none;padding: 20px;">Agrega todos los gastos fijos que tienes mes por mes para conocer mejor tu situación financiera actual.</h3>	
+	<form style="background: white;padding: 9px;">
+    <label>Concepto</label><input type="text" id="concepto" placeholder="Ejemplo: Renta" value="" />
     <label>pagos</label><input type="number" placeholder="$" id="pago" value="" />
     <input type="button" id="ingresar" value="Agregar" />
     <table data-role="table" id="my-table" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-text="columnas" style="overflow: auto;">
@@ -70,15 +91,32 @@
     <tbody id="gastos"></tbody>
     
     </table>
-    <p style="text-align: center;" id="nota">Puede agregarlos y eliminarlos despu&eacute;s en ajustes</p>
+    <input type="button" value="Continuar" id="continue" onclick="$.mobile.navigate( '#page4',{transition : 'slide'} ); " />
+    <p style="text-align: center;font-size: 12px;" id="nota">Puede agregarlos y eliminarlos despu&eacute;s en ajustes</p>
+    </form>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+<div data-role="page" id="page4" style="background: #00BBB3;">
+	<div data-role="content" style="text-align: center;">
+    <h3 style="text-align: center;background: #00817C;color: #FFFFFF;text-shadow: none;padding: 20px;">“Si compras cosas que no necesitas, pronto tendrás que vender cosas que necesitas” W.B.<br /><br />Escribe primero tu gasto y después da clic en la categoría</h3>	
+	<img src="jquery-mobile/images/img_4.png" />
+    <img src="jquery-mobile/images/img_5.png" />
+    <img src="jquery-mobile/images/img_6.png" />
+    <img src="jquery-mobile/images/img_7.png" />
+    <img src="jquery-mobile/images/img_8.png" />
+    <img src="jquery-mobile/images/img_9.png" />
+    <h3 style="text-align: center;background: #00817C;color: #FFFFFF;text-shadow: none;padding: 20px;">Ahora tu compromiso es anotar todos tus gastos todos los días por mínimos que sean, estando sobrio y también ebrio, aunque tengas prisa o mucha flojera e incluso se te esté acabando la pila</h3>	
+    <input type="button" value="Iniciar" id="continue" onclick="$.mobile.navigate( '#page3',{transition : 'slide'} ); " />
 	</div><!-- /content -->
 
 </div><!-- /page -->
 <div data-role="page" id="page3">
-	<div data-role="header">
-		<h1>D&oacute;nde est&aacute; mi dinero?<input type="hidden" id="online" /></h1>
+	<div data-role="header" data-position="fixed">
+		<h1>Mi dinero<input type="hidden" id="online" /></h1>
 	</div><!-- /header -->
     <div data-role="content" id="fondo">
+    <p style="text-align: center;margin: 0;font-weight: 700;">Ingrese lo que gasto</p>
     <input type="number" id="me_gaste" placeholder="$" />
     <input type="hidden" id="cat" />
     <div id="mensaje" style="display: none;text-align: center;"><p>Dato guardado</p></div>	
@@ -95,11 +133,12 @@
     <ul>
         <li><a href="#configuracion" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()" >Metas</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="ccbalance()">Balance</a></li>
     </ul>
     </div>
     <div data-role="popup" id="configuracion" data-theme="d">
         <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#fecha_corte" onclick="">Diá de corte</a></li>
             <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
             <li><a href="#config_gf" onclick="checkgasfi();">Gastos fijos</a></li>
         </ul>
@@ -107,28 +146,36 @@
 </div>
 </div><!-- /page -->
 
+<div data-role="page" id="fecha_corte">
+
+	<div data-role="header" data-position="fixed">
+		<h1>Configuraci&oacute;n</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+			<div data-role="collapsible-set" id="accmetas"></div>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
 <div data-role="page" id="config_s">
 
-	<div data-role="header">
+	<div data-role="header" data-position="fixed">
 		<h1>Configuraci&oacute;n</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">	
 		 <form>
-   <p style="text-align: center;">ID: <span id="config_result"></span></p>
-    <fieldset data-role="controlgroup" data-type="horizontal">
-        <legend>&iquest;Tipo de ingreso?</legend>
-        <input type="radio" name="radio1" id="radio-choice-h-2a1" value="fijo" >
-        <label for="radio-choice-h-2a1">Fijo</label>
-        <input type="radio" name="radio1" id="radio-choice-h-2b2" value="variable">
-        <label for="radio-choice-h-2b2">Variable</label>
+
         <input type="hidden" id="fiva1" value=""/>
-    </fieldset>
     <div id="dpc1">
-    <label>&iquest;Cuanto gano?</label>
+    <h3>Ingreso</h3>
     <input type="number" name="sueldo" id="sueldo1" value="" />
     </div>
-    <input type="button" value="enviar" id="save_sueldo1"  />
+    <label>
+        <input type="checkbox" id="cke1" name="checkbox-1 "/>No deseo especificar mis ingresos
+    </label>
+    <input type="button" value="Actualizar" id="save_sueldo1"  />
     <p id="rgd" style="font-weight: 700;text-align: center;"></p>
 </form>		
 	</div><!-- /content -->
@@ -137,7 +184,7 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
     </ul>
     </div>
    
@@ -146,7 +193,7 @@
 
 <div data-role="page" id="config_gf">
 
-	<div data-role="header">
+	<div data-role="header" data-position="fixed">
 		<h1>Configuraci&oacute;n</h1>
         <label id="cfs" style="display: none;"></label>
 	</div><!-- /header -->
@@ -166,35 +213,34 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home" >Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
     </ul>
     </div>   
 </div>
 </div><!-- /page -->
 <div data-role="page" id="metas">
 
-	<div data-role="header">
+	<div data-role="header" data-position="fixed">
 		<h1>Metas</h1>
 	</div><!-- /header -->
 	<div data-role="content" id="metasxx">
-    <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;">
-        <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>      
-        <button data-icon="arrow-r" data-iconpos="right" id="nexts" onclick="cargarmeta(+1);">Siguiente</button>        
-    </fieldset>
+    <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );">Agregar</button>
     <h4 id='congrat' style="text-align: center;color: #00FF00;"></h4>
     <h2 style="text-align: center;"></h2>
     <div class="contenedorimg"><img class="imagenmeta" id="imgop1"/></div>
+    
+    <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;" data-mini="false" >
+        <button id="actmetas" data-icon="check" data-iconpos="left" data-theme="b">Abonar</button>
+        <button data-icon="delete" data-iconpos="right" data-theme="b" id="deletemeta" onclick="deletemeta()">Eliminar</button>
+    </fieldset> 
     <p style="text-align: center;" id="fecmeta"></p>
     <h3 id="premeta" style="margin: 0;"></h3>
-<div data-role="fieldcontain" id="slide">
-  <label for="slider-2" id="mosmet"></label>
-  <input type="range" name="slider-2" id="slider-2" value="0" min="0" max="" data-mini="true" data-highlight="true"/>
-</div>
-    <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;" data-mini="true">
-        <button data-icon="edit" data-iconpos="left" id="deletemeta" onclick="deletemeta()">Eliminar</button>
-        <button id="actmetas" >Actualizar</button>
-        <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );">Agregar</button>
-    </fieldset>  
+    <p>Ahorrado:</p>
+    <div id="progressbar"><div class="progress-label"></div></div>
+     <fieldset data-role="controlgroup" data-type="horizontal"  style="text-align: center;" data-mini="false">
+        <button data-icon="arrow-l" data-iconpos="left" id="lasts" onclick="cargarmeta(-1);">Anterior</button>      
+        <button data-icon="arrow-r" data-iconpos="right" id="nexts" onclick="cargarmeta(+1);">Siguiente</button>        
+    </fieldset>
       	
 	</div><!-- /content -->
     <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
@@ -202,11 +248,12 @@
     <ul>
         <li><a href="#configuracion2" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
     </ul>
     </div> 
     <div data-role="popup" id="configuracion2" data-theme="d">
         <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#fecha_corte" onclick="">Diá de corte</a></li>
             <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
             <li><a href="#config_gf" onclick="checkgasfi();">Gastos fijos</a></li>
         </ul>
@@ -215,7 +262,7 @@
 
 </div><!-- /page -->
 <div data-role="page" id="metas_insert">
-	<div data-role="header">
+	<div data-role="header" data-position="fixed">
     <a href="#" data-role="button" onclick="loadmeta()" data-icon="forward" data-rel="back" data-iconpos="notext" data-theme="c" data-inline="true">Back</a>
 		<h1>Metas</h1>
 	</div><!-- /header -->
@@ -223,16 +270,16 @@
 	<div data-role="content">
 	<form>
     <label>Cual es tu meta?</label>
-    <input type="text" id="metnombre" placeholder="Título de la meta" />
+    <input type="text" id="metnombre0" placeholder="Nombre de la meta" />
     Cual es el precio?
-    <input type="number" id="metprecio" placeholder="Precio $"/>
+    <input type="number" id="metprecio0" placeholder="Precio $"/>
     <label>En cuanto tiempo (meses)?</label>
-    <input type="number" id="metperiodo" placeholder="Meses" />
+    <input type="number" id="metperiodo0" placeholder="Meses" />
     <div class="contenedorimg"><img class="imagenmeta" id="imgop" style="display: none;"/> </div>       
     <input type="button" value="Seleccionar imagen" onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);" />
-    <input type="hidden" id="meturlimg" value="" />
-    <input type="button" id="metsave" value="Guardar Meta" onclick="savemeta()" />
-    <p id="respmeta" style="text-align: center;"></p>
+    <input type="hidden" id="meturlimg0" value="" />
+    <input type="button" id="metsave" value="Guardar Meta" onclick="savemeta(0)" />
+    <p id="respmeta0" style="text-align: center;"></p>
     </form>	
 	</div><!-- /content -->
 <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
@@ -240,11 +287,12 @@
     <ul>
         <li><a href="#configuracion1" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
     </ul>
     </div> 
     <div data-role="popup" id="configuracion1" data-theme="d">
         <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#fecha_corte" onclick="">Diá de corte</a></li>
             <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
             <li><a href="#config_gf" onclick="checkgasfi();">Gastos fijos</a></li>
         </ul>
@@ -254,13 +302,37 @@
 
 <div data-role="page" id="balance">
 
-	<div data-role="header">
+	<div data-role="header" data-position="fixed">
 		<h1>Balance</h1>
 	</div><!-- /header -->
 	<div data-role="content">
-    <input type="button" id="checkbalance" value="Ver mi balance" onclick=" ccbalance()"/>
-	<div id="resbalance">
-    </div>			
+
+    <form style="text-align: center;">
+<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+    <legend>Mostrar otros meses</legend>
+    <label for="select-h-6a"></label>
+    <select name="select-h-6a" id="select-h-6a">
+    </select>
+    <label for="select-h-6b"></label>
+    <select name="select-h-6b" id="select-h-6b">
+      
+    </select>
+    
+</fieldset>
+</form>
+    <table id="chartData">
+    <tr>
+      <th>Categoria</th><th>$</th>
+     </tr>
+    <tbody id="balans">
+    
+    </tbody>
+  </table>
+
+    <canvas id="chart" ></canvas>
+    
+
+  			
 	</div><!-- /content -->
 <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
     <div data-role="navbar" >
@@ -272,6 +344,7 @@
     </div> 
     <div data-role="popup" id="configuracion2" data-theme="d">
         <ul data-role="listview" data-inset="true" style="min-width:100px;" data-theme="d">
+            <li><a href="#fecha_corte" onclick="">Diá de corte</a></li>
             <li><a href="#config_s" onclick="mostrar_sueldo()">Sueldo</a></li>
             <li><a href="#config_gf" onclick="checkgasfi();">Gastos fijos</a></li>
         </ul>
@@ -281,16 +354,16 @@
 
 <div data-role="page" id="metas_saldo">
 
-	<div data-role="header">
-    <a href="#metas" data-role="button" onclick="loadmeta()" data-icon="home"  data-iconpos="notext" data-theme="c" data-inline="true">Back</a>
+	<div data-role="header" data-position="fixed">
+    <a href="#metas" data-role="button" onclick="loadmeta()" data-icon="forward"  data-iconpos="notext" data-theme="c" data-inline="true">Back</a>
 		<h1>Metas</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">	
 			<div data-role="collapsible-set" id="accmetas"></div>
 	</div><!-- /content -->
-
+ 
 </div><!-- /page -->
-
+<script src="jquery-mobile/grafica.js"></script>
   </body>
 </html>
