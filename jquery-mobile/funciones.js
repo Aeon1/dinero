@@ -38,15 +38,16 @@ $('#cke1').change(function(){
  $('#save_sueldo').click(function(){
     var v2=$('#fiva').val();
     var v3=$('#sueldo').val();
+    var v4=$('#select-native-2').val();
     if(v2=='0'){
         if (v3==''){            
             $('#sueldo').attr('placeholder','Indique su ingreso').focus();
-                    }else{
-                        save_sueldo();        
-                        }
-                }else{
-                    save_sueldo();
-    }
+                    }else if (v4==''){
+                        alert('Debe especificar el dia de corte');
+                        }else{save_sueldo();}
+                }else if(v4==''){
+                    alert('Debe especificar el dia de corte');
+    }else{save_sueldo();}
  });
  //guardar modificacion de sueldo
  $('#save_sueldo1').click(function(){
@@ -62,6 +63,8 @@ $('#cke1').change(function(){
     }else{
        change_sueldo();       
     }
+    
+
  });
 
  //evitar que los campos de gastos fijos no esten vacios
@@ -90,7 +93,9 @@ $('#fondo img').click(function(){
         save_gastos_d();
         pr='';
     }
-    })  
+    }) 
+    
+ 
 }); 
 //abrir la bd y comprobar si existe y generar y guardar la clave
 function onDeviceReady() { 
@@ -159,21 +164,23 @@ var clave=msje1+msje2+msje3+msje4+msje5+msje6;
 //optener fecha de registro
 var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;var yyyy = fecha.getFullYear(); var h=fecha.getHours();var m=fecha.getMinutes();var s=fecha.getSeconds();if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} if (h<10){h='0'+h} if (m<10){m='0'+m} if (s<10){s='0'+s}
 var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
- //  tx.executeSql('DROP TABLE IF EXISTS clave');
+//   tx.executeSql('DROP TABLE IF EXISTS clave');
 //    tx.executeSql('DROP TABLE IF EXISTS sueldo');
-    tx.executeSql('DROP TABLE IF EXISTS hormiga');
+   tx.executeSql('DROP TABLE IF EXISTS hormiga');
 //    tx.executeSql('DROP TABLE IF EXISTS gasto');
 //     tx.executeSql('DROP TABLE IF EXISTS metas');
+//      tx.executeSql('DROP TABLE IF EXISTS fcorte');
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS hormiga(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,categoria, valor, fecha)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
     tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,imagen,fecha,ahorro)');
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Salud', '55', '2014-10-13 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Salud', '55', '2015-11-13 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Salud', '55', '2014-112-14 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Salud', '55', '2016-01-23 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Salud', '55', '2017-09-15 12:00:00']);
+    tx.executeSql('CREATE TABLE IF NOT EXISTS fcorte (dia)');
+    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Salud', '55', '2013-12-10 12:00:00']);
+    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Vivir', '55', '2013-12-14 12:00:00']);
+    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Trasporte', '55', '2014-01-09 12:00:00']);
+    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Social', '55', '2014-01-10 12:00:00']);
+    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Centaveros', '55', '2014-01-15 12:00:00']);
     if (xtsjf=='0'){
     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
    console.log('datos guardados en telefono'+clave);
@@ -205,14 +212,17 @@ function querySuccess(tx, results) {
 //guardar el sueldo
 function save_sueldo() {
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-        db.transaction(
+            db.transaction(
         function (tx){ 
     var fiva=$("#fiva").val();
-    var sueldo=$("#sueldo").val();         
+    var sueldo=$("#sueldo").val();   
+    var dcut=$('#select-native-2').val();      
     tx.executeSql('insert into sueldo(id,fiva,sueldo) values(?,?,?)',[uid,fiva,sueldo]);
+    tx.executeSql('insert into fcorte(dia) values(?)',[dcut]);
     console.log("se insertaron los registros en el telefono");
    $.mobile.navigate( "#page2",{transition : "slide"} );
 },clave_error);
+
     }    
     
 //modificar el sueldo
@@ -500,10 +510,9 @@ function ccbalance(){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
     db.transaction(
      function(tx){ 
-  tx.executeSql("SELECT categoria,sum(valor)as valor FROM hormiga WHERE clave=? group by categoria order by categoria asc", [uid], corte);  
-  tx.executeSql("SELECT fecha,type FROM hormiga WHERE clave=?  group by strftime('%Y',fecha),type order by categoria asc", [uid], select1); 
-  tx.executeSql("SELECT strftime('%m',fecha)as fnum,case strftime('%m',fecha) when '01' then 'Enero' when '02' then 'Febrero' when '03' then 'Marzo' when '04' then 'Abril' when '05' then 'Mayo' when '06' then 'Junio' when '07' then 'Julio' when '08' then 'Agosto' when '09' then 'Septiembre' when '10' then 'Octubre' when '11' then 'Noviembre' when '12' then 'Diciembre' else '' end as month,type FROM hormiga WHERE clave=?  group by strftime('%m',fecha),type order by categoria asc", ['MNPJHN'], select2);
-  
+  tx.executeSql("SELECT categoria,sum(valor)as valor FROM hormiga WHERE clave=? and julianday(fecha) between julianday('2013-12-10') and julianday('2014-01-11') group by categoria", ['MNPJHN'], corte);  
+  tx.executeSql("SELECT strftime('%Y',fecha) as ano FROM hormiga WHERE clave=? group by strftime('%Y',fecha)", ['MNPJHN'], select1); 
+ 
   console.log('ejecutando')
   });
     
@@ -516,7 +525,7 @@ $('#balans').html('');
 var colors=["#9508F9","#FB1258","#FF6600","#FF00FF","#FCD809","#FB3E04"];
 for (i=0;i<len;i++){
     $('#balans').append("<tr style='color:"+colors[i]+"'><td>"+results.rows.item(i).categoria+"</td><td>"+results.rows.item(i).valor+"</td></tr>");
-   
+   console.log(results.rows.item(i).categoria);
 }
 pieChart();
 }
@@ -525,19 +534,24 @@ function select1(tx,results){
     $('#select-h-6a').html('');
     $('#select-h-6a').append("<option value=''>A&ntilde;o</option>");
     $("#select-h-6a").append()
-  for (i=0;i<len;i++){
-    ana=results.rows.item(i).fecha.split('-',3);
-    $('#select-h-6a').append("<option value='"+ana[0]+"'>"+ana[0]+"</option>");
+  for (i=1;i<len;i++){
+    //ana=results.rows.item(i).fecha.split('-',3);
+    $('#select-h-6a').append("<option value='"+results.rows.item(i).ano+"'>"+results.rows.item(i).ano+"</option>");
     }
     $("#select-h-6a").selectmenu( "refresh" );
 }  
-function select2(tx,results){
-    var len = results.rows.length;
-    console.log('meses '+len);    
-    $('#select-h-6b').html('');
-     $('#select-h-6b').html("<option value=''>Mes</option>");
-  for (i=0;i<len;i++){
-    $('#select-h-6b').append("<option value='"+results.rows.item(i).fnum+"'>"+results.rows.item(i).month+"</option>");
+ 
+     //filtrado de balance
+     $(document).ready(function(){
+ $('#select-h-6a').change(function(){
+   var valrs1 = $('#select-h-6a').val();
+   var valrs2 = $('#select-h-6b').val();  
+    if (valrs1!='' && valrs2!=''){
+        var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+    db.transaction(
+     function(tx){ 
+  tx.executeSql("SELECT categoria,sum(valor)as valor FROM hormiga WHERE clave=? and julianday(fecha) between julianday('2013-12-10') and julianday('2014-01-15') group by categoria", ['MNPJHN'], corte);  
+  });
     }
-    $("#select-h-6b").selectmenu( "refresh" );
-}  
+ }); 
+ });
