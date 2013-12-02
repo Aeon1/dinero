@@ -105,6 +105,8 @@
         <option value="26">26</option>
         <option value="27">27</option>
         <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
     </select>
 </div>
     <input type="button" value="Agregar" id="save_sueldo"  />
@@ -188,9 +190,56 @@
 	</div><!-- /header -->
 
 	<div data-role="content">	
-			<div data-role="collapsible-set" id="accmetas"></div>
+		<div data-role="fieldcontain">
+    <h3>Día de corte:</h3>
+    <select name="select-native-3" id="select-native-3" data-mini="false">
+        <option value="">Día</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+    </select>
+    <input type="button" value="Guardar" id="save_corte" onclick="save_ddcorte();" />
+    
+</div>
+<p id="swfc" style="text-align: center;display: none;">Guardado</p>
 	</div><!-- /content -->
-
+<div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
+    <div data-role="navbar" >
+    <ul>
+        <li><a href="#page3" id="" data-icon="home">Principal</a></li>
+        <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="ccbalance()">Balance</a></li>
+    </ul>
+    </div>
+   
+</div>
 </div><!-- /page -->
 
 <div data-role="page" id="config_s">
@@ -219,7 +268,7 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="ccbalance()">Balance</a></li>
     </ul>
     </div>
    
@@ -248,7 +297,7 @@
     <ul>
         <li><a href="#page3" id="" data-icon="home" >Principal</a></li>
         <li><a href="#metas" id="" data-icon="forward" onclick="loadmeta()">Metas</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="ccbalance()">Balance</a></li>
     </ul>
     </div>   
 </div>
@@ -259,7 +308,7 @@
 		<h1>Metas</h1>
 	</div><!-- /header -->
 	<div data-role="content" id="metasxx">
-    <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );">Agregar</button>
+    <button data-icon="plus" data-iconpos="right" onclick="$.mobile.navigate( '#metas_insert',{transition : 'slide'} );$('#rmc').hide()">Agregar</button>
     <h4 id='congrat' style="text-align: center;color: #00FF00;"></h4>
     <h2 style="text-align: center;"></h2>
     <div class="contenedorimg"><img class="imagenmeta" id="imgop1"/></div>
@@ -283,7 +332,7 @@
     <ul>
         <li><a href="#configuracion2" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="ccbalance()">Balance</a></li>
     </ul>
     </div> 
     <div data-role="popup" id="configuracion2" data-theme="d">
@@ -303,6 +352,7 @@
 	</div><!-- /header -->
     
 	<div data-role="content">
+    <h2 id="rmc" style="display: none;margin-top: 0;text-align: center;">Cumpliste tus metas, proponte otra.</h2>
 	<form>
     <label>Cual es tu meta?</label>
     <input type="text" id="metnombre0" placeholder="Nombre de la meta" />
@@ -322,7 +372,7 @@
     <ul>
         <li><a href="#configuracion1" id="" data-icon="gear" data-rel="popup">Ajustes</a></li>
         <li><a href="#page3" id="" data-icon="home">Principal</a></li>
-        <li><a href="#balance" id="" data-icon="back" onclick="check_sincronizacion();ccbalance()">Balance</a></li>
+        <li><a href="#balance" id="" data-icon="back" onclick="ccbalance()">Balance</a></li>
     </ul>
     </div> 
     <div data-role="popup" id="configuracion1" data-theme="d">
@@ -342,7 +392,8 @@
 	</div><!-- /header -->
 	<div data-role="content">
 
-    <form style="text-align: center;">
+ 
+<form style="text-align: center;">
 <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
     <legend>Mostrar otros meses</legend>
     <label for="select-h-6a"></label>
@@ -377,10 +428,8 @@
   </table>
 
     <canvas id="chart" ></canvas>
-    
 
-  			
-	</div><!-- /content -->
+ </div><!-- /content -->
 <div data-role="footer" data-position="fixed" class="ui-btn-active ui-state-persist" data-theme="c">
     <div data-role="navbar" >
     <ul>
@@ -407,7 +456,7 @@
 	</div><!-- /header -->
 
 	<div data-role="content">	
-			<div data-role="collapsible-set" id="accmetas"></div>
+			<div  id="accmetas"></div>
 	</div><!-- /content -->
  
 </div><!-- /page -->

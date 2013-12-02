@@ -114,16 +114,20 @@ var xtsjf;
         db.transaction(
         function(tx) {
         tx.executeSql('SELECT * FROM metas', [],checar_c2);
+        tx.executeSql("SELECT * FROM metas where completa == '0'", [],metas_completas);
         tx.executeSql('SELECT * FROM sueldo', [],checar_c3);
+        tx.executeSql('SELECT * FROM fcorte',[],checar_c7)
     });
  }
  var mme;
  var ssu;
+ var metfull;
   function checar_c2(tx, results) {mme=results.rows.length;}
+  function metas_completas(tx, results) {metfull=results.rows.length;}
         
   function checar_c3(tx, results) {
     var ssu = results.rows.length;
-        if (mme==0){$.mobile.navigate("#cargando_metas");}
+        if (mme==0){$.mobile.navigate("#cargando_metas");}else if(metfull <= '0'){$.mobile.navigate("#metas_insert"); $('#rmc').show('normal')}
         else if(ssu==0){$.mobile.navigate("#page1");}else{$.mobile.navigate("#page3");}           
         }
 
@@ -143,6 +147,16 @@ function checar_c6(tx,results){
         }      
     xtsjf=len;
     console.log(uid);
+}
+var fcc;
+function checar_c7(tx,results){
+    var len = results.rows.length;
+        console.log('fecha de corte '+len);
+        for (var i=0; i<len; i++){
+        fcc=results.rows.item(i).dia;
+        $('#select-native-3').val(fcc);          
+        }      
+ 
 }
 
  function claveDB(tx) {
@@ -166,21 +180,16 @@ var fecha = new Date(); var dd = fecha.getDate(); var mm = fecha.getMonth()+1;va
 var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
 //   tx.executeSql('DROP TABLE IF EXISTS clave');
 //    tx.executeSql('DROP TABLE IF EXISTS sueldo');
-   tx.executeSql('DROP TABLE IF EXISTS hormiga');
+//   tx.executeSql('DROP TABLE IF EXISTS hormiga');
 //    tx.executeSql('DROP TABLE IF EXISTS gasto');
 //     tx.executeSql('DROP TABLE IF EXISTS metas');
-//      tx.executeSql('DROP TABLE IF EXISTS fcorte');
+//    tx.executeSql('DROP TABLE IF EXISTS fcorte');
     tx.executeSql('CREATE TABLE IF NOT EXISTS clave(id unique, clave,fecha TEXT)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS sueldo(id TEXT, fiva,sueldo)');      
     tx.executeSql('CREATE TABLE IF NOT EXISTS hormiga(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,categoria, valor, fecha)'); 
     tx.executeSql('CREATE TABLE IF NOT EXISTS gasto(id INTEGER PRIMARY KEY AUTOINCREMENT,clave,concepto,valor)');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,imagen,fecha,ahorro)');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS fcorte (dia)');
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Salud', '55', '2013-12-10 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Vivir', '55', '2013-12-14 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Trasporte', '55', '2014-01-09 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Social', '55', '2014-01-10 12:00:00']);
-    tx.executeSql('insert into hormiga(clave, categoria, valor, fecha) values(?,?,?,?)',['MNPJHN', 'Centaveros', '55', '2014-01-15 12:00:00']);
+    tx.executeSql('CREATE TABLE IF NOT EXISTS metas(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre,precio,periodo,imagen,fecha,ahorro,completa)');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS fcorte (clave,dia)');
     if (xtsjf=='0'){
     tx.executeSql('insert into clave(id,clave,fecha) values(1,"'+clave+'","'+fecha+'")'); 
    console.log('datos guardados en telefono'+clave);
@@ -218,12 +227,24 @@ function save_sueldo() {
     var sueldo=$("#sueldo").val();   
     var dcut=$('#select-native-2').val();      
     tx.executeSql('insert into sueldo(id,fiva,sueldo) values(?,?,?)',[uid,fiva,sueldo]);
-    tx.executeSql('insert into fcorte(dia) values(?)',[dcut]);
+    tx.executeSql('insert into fcorte(clave,dia) values(?,?)',[uid,dcut]);
+    $('#select-native-3').val(dcut);
     console.log("se insertaron los registros en el telefono");
    $.mobile.navigate( "#page2",{transition : "slide"} );
 },clave_error);
 
-    }    
+    } 
+    
+//modificar fecha de corte
+function save_ddcorte(){
+    var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+            db.transaction(
+        function (tx){
+          var dcut=$('#select-native-3').val();
+          tx.executeSql('insert into fcorte(clave,dia) values(?,?)',[uid,dcut]);
+          $('#swfc').fadeIn('normal').delay(1000).fadeOut('normal');    
+        });       
+}   
     
 //modificar el sueldo
 function mostrar_sueldo() {
@@ -404,7 +425,7 @@ function savemeta(mover){
 var fecha = dd+" del "+mm+" de "+yyyy;
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {          
-tx.executeSql('insert into metas(nombre,precio,periodo,imagen,fecha,ahorro) values(?,?,?,?,?,?)',[nommeta,precio,periodo,urlimagen,fecha,'0']);
+tx.executeSql('insert into metas(nombre,precio,periodo,imagen,fecha,ahorro,completa) values(?,?,?,?,?,?,?)',[nommeta,precio,periodo,urlimagen,fecha,'0','0']);
             $("#metnombre"+mover+",#metprecio"+mover+",#metperiodo"+mover+",#meturlimg"+mover).val('');
             $('#respmeta'+mover).html('Meta agregada').fadeIn().delay(1500).fadeOut('slow');
             if (mover==1){$.mobile.navigate( '#page1',{transition : 'slide'});}
@@ -416,7 +437,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,imagen,fecha,ahorro) valu
      function loadmeta() {        
         var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
-        tx.executeSql('SELECT * FROM metas', [], loadmeta1);
+        tx.executeSql('SELECT * FROM metas order by completa asc', [], loadmeta1);
     });
     }
     var valmetas= new Array();
@@ -452,7 +473,7 @@ tx.executeSql('insert into metas(nombre,precio,periodo,imagen,fecha,ahorro) valu
        $('#deletemeta').attr('onclick','deletemeta('+dato[0]+')');
        $('#slider-2').slider( "refresh" );
        $('#actmetas').attr('onclick','cgmetas('+dato[0]+')');
-       if (parseInt(dato[6])>parseInt(dato[2])){$('#congrat').html('Felicidades Realizaste tu meta');}
+       if (parseInt(dato[6])>=parseInt(dato[2])){$('#congrat').html('Felicidades Realizaste tu meta');}
     }
 
 
@@ -473,15 +494,17 @@ function deletemeta(idmeta){
     
 }
 
-function lo_guardado(id){
+function lo_guardado(id,precio){
     var vvm=$('#aho'+id).val();
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
         db.transaction(function(tx) {
-           tx.executeSql("update metas set ahorro=ahorro+"+vvm+" where id='"+id+"'"); 
+           tx.executeSql("update metas set ahorro=ahorro+"+vvm+" where id='"+id+"'");            
            $('#accmetas h5').html('Guardado').fadeIn().delay(1500).fadeOut();
            var aumento=$('#ahho'+id).text();
            var total=parseInt(aumento)+parseInt(vvm); 
-            $('#ahho'+id).text(total);         
+           if (total>=precio){tx.executeSql("update metas set completa='1' where id='"+id+"'");$('#rrs').html('Felicidades Realizaste tu meta');$('.save_aho').button( "disable" );$('.save_aho').button( "refresh" );}
+            $('#ahho'+id).text(total); 
+                    
         });
 }
 
@@ -495,13 +518,13 @@ function showmet(tx,results){
     $('#accmetas').html('');
     var len = results.rows.length;
     for(var i=0;i<len;i++){        
-    $('#accmetas').append("<div data-role='collapsible'><h3>"+results.rows.item(i).nombre+"</h3><p><h4 id='rrs'>Llevas $<span id='ahho"+results.rows.item(i).id+"'>"+results.rows.item(i).ahorro+"</span> de $"+results.rows.item(i).precio+"</h4><label>Cuanto ahorraste para la meta?</label><input type='number' id='aho"+results.rows.item(i).id+"' value='"+results.rows.item(i).precio/results.rows.item(i).periodo+"'/><input class='save_aho' type='button' value='Guardar' onclick='lo_guardado("+results.rows.item(i).id+");'  /> </p><h5 style='text-align:center'></h5></div>");
-    if (results.rows.item(i).ahorro>results.rows.item(i).precio){$('#rrs').html('Felicidades Realizaste tu meta');$('.save_aho').attr("disabled",'true');$('#accmetas h3').css('color','#00FF00')}
+    $('#accmetas').append("<h3 style='text-align:center'>"+results.rows.item(i).nombre+"</h3><p><h4 id='rrs'>Llevas $<span id='ahho"+results.rows.item(i).id+"'>"+results.rows.item(i).ahorro+"</span> de $"+results.rows.item(i).precio+"</h4><label>Cuanto ahorraste para la meta?</label><input type='number' id='aho"+results.rows.item(i).id+"' value='"+results.rows.item(i).precio/results.rows.item(i).periodo+"'/><input class='save_aho' type='button' value='Guardar' onclick='lo_guardado("+results.rows.item(i).id+","+results.rows.item(i).precio+");'  /> </p><h5 style='text-align:center'></h5>");
+    if (results.rows.item(i).ahorro>=results.rows.item(i).precio){$('#rrs').html('Felicidades Realizaste tu meta');$('.save_aho').button( "disable" );$('#accmetas h3').css('color','#00FF00')}
     
     $('#aho'+results.rows.item(i).id).textinput();
     $('.save_aho').button();
     }
-    $('div[data-role=collapsible]').collapsible({ corners: true });
+    //$('div[data-role=collapsible]').collapsible({ corners: true });
     $.mobile.navigate('#metas_saldo',{transition : 'slide'});
 }
 
@@ -510,8 +533,11 @@ function ccbalance(){
     var db = window.openDatabase("Database", "1.0", "claves test", 200000);
     db.transaction(
      function(tx){ 
-  tx.executeSql("SELECT categoria,sum(valor)as valor FROM hormiga WHERE clave=? and julianday(fecha) between julianday('2013-12-10') and julianday('2014-01-11') group by categoria", ['MNPJHN'], corte);  
-  tx.executeSql("SELECT strftime('%Y',fecha) as ano FROM hormiga WHERE clave=? group by strftime('%Y',fecha)", ['MNPJHN'], select1); 
+     var fc = new Date();
+     var fc1=fc.getMonth()+1;
+     if (fc1=='2' && fcc>'28'){fccc='28'}else{fccc=fcc}    
+  tx.executeSql("SELECT categoria,sum(valor)as valor FROM hormiga WHERE clave=? and date(julianday(fecha)) between date(strftime('%Y-%m-"+fccc+"','now'),'-30 day') and date(strftime('%Y-%m-"+fccc+"','now')) group by categoria", [uid], corte);  
+  tx.executeSql("SELECT strftime('%Y',fecha) as ano FROM hormiga WHERE clave=? group by strftime('%Y',fecha)", [uid], select1); 
  
   console.log('ejecutando')
   });
@@ -534,7 +560,7 @@ function select1(tx,results){
     $('#select-h-6a').html('');
     $('#select-h-6a').append("<option value=''>A&ntilde;o</option>");
     $("#select-h-6a").append()
-  for (i=1;i<len;i++){
+  for (i=0;i<len;i++){
     //ana=results.rows.item(i).fecha.split('-',3);
     $('#select-h-6a').append("<option value='"+results.rows.item(i).ano+"'>"+results.rows.item(i).ano+"</option>");
     }
@@ -547,11 +573,33 @@ function select1(tx,results){
    var valrs1 = $('#select-h-6a').val();
    var valrs2 = $('#select-h-6b').val();  
     if (valrs1!='' && valrs2!=''){
-        var db = window.openDatabase("Database", "1.0", "claves test", 200000);
-    db.transaction(
-     function(tx){ 
-  tx.executeSql("SELECT categoria,sum(valor)as valor FROM hormiga WHERE clave=? and julianday(fecha) between julianday('2013-12-10') and julianday('2014-01-15') group by categoria", ['MNPJHN'], corte);  
-  });
+        if (valrs2=='02' && fcc>'28'){
+            var fcc1=valrs1+'-'+valrs2+'-'+'28';
+        }else{
+        var fcc1=valrs1+'-'+valrs2+'-'+fcc;
+        }
+        mostrar_grafica(fcc1)
     }
  }); 
+ $('#select-h-6b').change(function(){
+   var valrs1 = $('#select-h-6a').val();
+   var valrs2 = $('#select-h-6b').val();  
+    if (valrs1!='' && valrs2!=''){
+        if (valrs2=='02' && fcc>'28'){
+            var fcc1=valrs1+'-'+valrs2+'-'+'28';
+        }else{
+        var fcc1=valrs1+'-'+valrs2+'-'+fcc;
+        }
+        mostrar_grafica(fcc1)
+    }
  });
+ });
+ function mostrar_grafica(fcc1){
+    console.log('dia de corte '+fcc1)
+   var db = window.openDatabase("Database", "1.0", "claves test", 200000);
+    db.transaction(
+     function(tx){ 
+  tx.executeSql("SELECT categoria,sum(valor)as valor FROM hormiga WHERE clave=? and date(julianday(fecha)) between date('"+fcc1+"','-30 day') and date('"+fcc1+"') group by categoria", [uid], corte);  
+  }); 
+ }
+ 
