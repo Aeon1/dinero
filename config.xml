@@ -2,11 +2,10 @@
 	<widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		id        = "com.estudiopitaya.dinero"
-		versionCode="2"
+		versionCode="3"
 		version   = "1.0.1">
 		<name>Donde esta mi dinero?</name>
-		<description>
-App para llevar un control de los gastos y una mejor administracion del dinero.		</description>
+		<description>App para llevar un control de los gastos y una mejor administracion del dinero.</description>
 		<author href="" email="joel.r@live.com.mx">
 Joel Rivera
 		</author>
@@ -19,7 +18,7 @@ Joel Rivera
 		<preference name="stay-in-webview" value="true" />
 		<preference name="ios-statusbarstyle" value="default" />
 		<preference name="detect-data-types" value="true" />
-		<preference name="exit-on-suspend" value="true" />
+		<preference name="exit-on-suspend" value="false" />
 		<preference name="show-splash-screen-spinner" value="true" />
 		<preference name="auto-hide-splash-screen" value="true" />
 		<preference name="disable-cursor" value="true" />
@@ -28,6 +27,7 @@ Joel Rivera
 		<preference name="android-installLocation" value="internalOnly" />
 		<preference name="splash-screen-duration" value="5000" />
 		<preference name="load-url-timeout" value="20000" />
+        <preference name="KeepRunning" value="false"/>
 		<feature name="http://api.phonegap.com/1.0/file"/>
 		<feature name="http://api.phonegap.com/1.0/media"/>
 		<feature name="http://api.phonegap.com/1.0/network"/>
