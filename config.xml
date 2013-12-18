@@ -27,7 +27,7 @@ Joel Rivera
 		<preference name="android-installLocation" value="internalOnly" />
 		<preference name="splash-screen-duration" value="5000" />
 		<preference name="load-url-timeout" value="20000" />
-        <preference name="KeepRunning" value="false"/>
+        <preference name="KeepRunning" value="true"/>
 		<feature name="http://api.phonegap.com/1.0/file"/>
 		<feature name="http://api.phonegap.com/1.0/media"/>
 		<feature name="http://api.phonegap.com/1.0/network"/>
