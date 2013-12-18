@@ -406,7 +406,7 @@ function copyPhoto(fileEntry) {
 }
 
 function onCopySuccess(entry) {
-     $('#meturlimg,#meturlimg1').val(entry.fullPath);
+     $('#meturlimg0,#meturlimg1').val(entry.fullPath);
 }
 
 function fail(error) {
