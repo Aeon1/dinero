@@ -342,7 +342,7 @@ function delete_gastos_f() {
     function(tx){
        $("input:checkbox:checked").each(function(){
       var a=$(this).val().split("-");
-    tx.executeSql("delete from gasto where clave=? and concepto=? and valor=?",uid,[a[0],a[1]]);
+    tx.executeSql("delete from gasto where clave=? and concepto=? and valor=?",[uid,a[0],a[1]]);
   console.log('se elimino el registro');
    $(this).parents('tr').hide('slow');
    })
