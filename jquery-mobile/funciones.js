@@ -369,16 +369,19 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
   //funciones para obtener la imagen
   function onPhotoURISuccess(imageURI) {
     createFileEntry(imageURI);
-      // Obtiene el elemento HTML de la imagen
+      // Obtiene el elemento HTML de la imagen      
       var largeImage = document.getElementById('imgop');
       var largeImage1 = document.getElementById('imgop1');
+      var largeImage2 = document.getElementById('imgop0');
       // Revela el elemento de la imagen
       largeImage.style.display = 'block';
       largeImage1.style.display = 'block';
+      largeImage2.style.display = 'block';
       // Muestra la foto capturada
       // Se usan reglas CSS para dimensionar la imagen
       largeImage.src = imageURI;
       largeImage1.src = imageURI;
+      largeImage2.src = imageURI;
       //$('#meturlimg').val(imageURI);
       nomimage=imageURI.substr(imageURI.lastIndexOf('/')+1);
     }
