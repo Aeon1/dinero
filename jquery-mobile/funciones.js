@@ -374,9 +374,11 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
       var largeImage1 = document.getElementById('imgop1');
       // Revela el elemento de la imagen
       largeImage.style.display = 'block';
+      largeImage1.style.display = 'block';
       // Muestra la foto capturada
       // Se usan reglas CSS para dimensionar la imagen
       largeImage.src = imageURI;
+      largeImage1.src = imageURI;
       //$('#meturlimg').val(imageURI);
       nomimage=imageURI.substr(imageURI.lastIndexOf('/')+1);
     }
