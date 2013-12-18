@@ -371,6 +371,7 @@ var fecha = yyyy+'-'+mm+'-'+dd+" "+h+":"+m+":"+s;
     createFileEntry(imageURI);
       // Obtiene el elemento HTML de la imagen
       var largeImage = document.getElementById('imgop');
+      var largeImage1 = document.getElementById('imgop1');
       // Revela el elemento de la imagen
       largeImage.style.display = 'block';
       // Muestra la foto capturada
@@ -405,7 +406,7 @@ function copyPhoto(fileEntry) {
 }
 
 function onCopySuccess(entry) {
-     $('#meturlimg').val(entry.fullPath);
+     $('#meturlimg,#meturlimg1').val(entry.fullPath);
 }
 
 function fail(error) {
@@ -416,7 +417,7 @@ function savemeta(mover){
     var nommeta=$('#metnombre'+mover).val();
     var precio=$('#metprecio'+mover).val();    
     var periodo=$('#metperiodo'+mover).val();
-    var urlimagen=$('#meturlimg'+mover).val()
+    var urlimagen=$('#meturlimg'+mover).val();
     if (nommeta==''){$('#metnombre'+mover).attr('placeholder','Ingrese su meta').focus();alert('vacio');return false; }
     else if (precio==''){$('#metprecio'+mover).attr('placeholder','Ingrese el precio').focus();return false; }
     else if (periodo==''){$('#metperiodo'+mover).attr('placeholder','Ingrese el periodo').focus();return false; }
